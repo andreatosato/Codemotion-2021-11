@@ -1,18 +1,3 @@
-# Codemotion-2021-11
-
-
-
-# Node Service
-1- Install Express for API
-```js
-npm init
-npm i express --save
-npm i axios
-npm i cross-env
-```
-2- Scrivi il servizio per leggere dei dati in memory.
-
-```js
 'use strict';
 
 // eslint-disable-next-line
@@ -45,9 +30,3 @@ app.use('/product', getCrudController());
 app.listen(PORT, () => {
   console.log(`Listening on http://localhost:${PORT}`);
 });
-```
-
-3- Aggiungi OpenTelemetry
-```
-npm install --save @opentelemetry/instrumentation-http @opentelemetry/instrumentation-express @opentelemetry/sdk-trace-node @opentelemetry/sdk-trace-base @opentelemetry/exporter-jaeger @opentelemetry/exporter-zipkin @opentelemetry/resources @opentelemetry/semantic-conventions
-```
