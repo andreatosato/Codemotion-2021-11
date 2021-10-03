@@ -9,6 +9,7 @@ npm init
 npm i express --save
 npm i axios
 npm i cross-env
+npm i mongoose --save
 ```
 2- Scrivi il servizio per leggere dei dati in memory.
 
@@ -50,4 +51,11 @@ app.listen(PORT, () => {
 3- Aggiungi OpenTelemetry
 ```
 npm install --save @opentelemetry/instrumentation-http @opentelemetry/instrumentation-express @opentelemetry/sdk-trace-node @opentelemetry/sdk-trace-base @opentelemetry/exporter-jaeger @opentelemetry/exporter-zipkin @opentelemetry/resources @opentelemetry/semantic-conventions
+```
+
+4- Connect to DB
+```
+docker run -p 27017:27017 --env MONGO_INITDB_ROOT_USERNAME=root --env MONGO_INITDB_ROOT_PASSWORD=example --name mongodb -d mongo:latest
+
+mongodb://root:example@mongodb:27017/productdb
 ```
