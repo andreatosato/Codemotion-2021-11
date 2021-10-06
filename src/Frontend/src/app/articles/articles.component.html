@@ -1,0 +1,15 @@
+<h2>Articles</h2>
+<ul class="articles">
+  <li *ngFor="let article of articles" [class.selected]="article === selectedArticle">
+    <span class="badge" (click)="onSelect(article)">{{article.id}}</span> {{article.name}}
+  </li>
+</ul>
+
+<div *ngIf="selectedArticle">
+  <h2>{{selectedArticle.name | uppercase}} Details</h2>
+  <div><span>id: </span>{{selectedArticle.id}}</div>
+  <div>
+    <label for="article-name">Article name: </label>
+    <input id="article-name" [(ngModel)]="selectedArticle.name" placeholder="name">
+  </div>
+</div>
