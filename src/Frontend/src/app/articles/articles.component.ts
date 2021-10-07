@@ -10,9 +10,23 @@ import { ARTICLES } from '../data';
 export class ArticlesComponent implements OnInit {
   articles = ARTICLES;
   selectedArticle?: Article;
+  newArticle?: Article;
 
   onSelect(article: Article): void {
-    this.selectedArticle = article;
+    if(!this.newArticle)
+      this.selectedArticle = article;
+  }
+
+  createNewArticle(): void {
+    this.selectedArticle = undefined;
+    this.newArticle = { id: ARTICLES.length, name: '', price: 0 };
+  }
+
+  closeNewArticle(confirm: boolean) : void {
+    if (confirm && this.newArticle)
+      ARTICLES.push(this.newArticle);
+
+    this.newArticle = undefined;
   }
 
   constructor() { }

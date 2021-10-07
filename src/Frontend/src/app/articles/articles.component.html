@@ -1,15 +1,45 @@
-<h2>Articles</h2>
-<ul class="articles">
-  <li *ngFor="let article of articles" [class.selected]="article === selectedArticle">
-    <span class="badge" (click)="onSelect(article)">{{article.id}}</span> {{article.name}}
-  </li>
-</ul>
+<div class="container">
+  <h5>Articles</h5>
+  <a class="waves-effect waves-light btn" (click)="createNewArticle()"><i class="material-icons right">add</i>New article</a>
+  <div class="row">
+    <table class="col s6 striped">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th class="right-align">Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let article of articles" class="collection-item" [class.selected]="article === selectedArticle" (click)="onSelect(article)">
+          <td>{{article.id}}</td>
+          <td>{{article.name}}</td>
+          <td class="right-align">{{article.price}} €</td>
+        </tr>
+      </tbody>
+    </table>
 
-<div *ngIf="selectedArticle">
-  <h2>{{selectedArticle.name | uppercase}} Details</h2>
-  <div><span>id: </span>{{selectedArticle.id}}</div>
-  <div>
-    <label for="article-name">Article name: </label>
-    <input id="article-name" [(ngModel)]="selectedArticle.name" placeholder="name">
+    <div *ngIf="selectedArticle" class="col s6">
+      <h5>{{selectedArticle.name | uppercase}} Details</h5>
+      <div><span>id: </span>{{selectedArticle.id}}</div>
+      <div>
+        <label for="article-name">Article name: </label>
+        <input id="article-name" [(ngModel)]="selectedArticle.name" placeholder="name">
+      </div>
+    </div>
+
+    <div *ngIf="newArticle" class="col s6">
+      <h5>New Article</h5>
+      <div class="input-field">
+        <label class="active" for="article-id">New Article ID</label>
+        <input id="article-id" value="{{newArticle.id}}" type="text" disabled>
+      </div>
+      <div class="input-field">
+        <label for="article-name">New Article name</label>
+        <input id="article-name" [(ngModel)]="newArticle.name" type="text" placeholder="name">
+      </div>
+      <a class="waves-effect waves-light btn red" (click)="closeNewArticle(false)" ><i class="material-icons right">close</i>Cancel</a>
+      <a class="waves-effect waves-light btn" (click)="closeNewArticle(true)" [attr.disabled]="newArticle.name ? null : 'disabled'"><i class="material-icons right">done</i>Confirm</a>
+    </div>
   </div>
 </div>
