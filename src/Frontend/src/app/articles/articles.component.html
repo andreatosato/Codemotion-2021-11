@@ -1,6 +1,7 @@
 <div class="container">
   <h5>Articles</h5>
   <a class="waves-effect waves-light btn" (click)="createNewArticle()"><i class="material-icons right">add</i>New article</a>
+  <hr>
   <div class="row">
     <table class="col s6 striped">
       <thead>
@@ -20,23 +21,40 @@
     </table>
 
     <div *ngIf="selectedArticle" class="col s6">
-      <h5>{{selectedArticle.name | uppercase}} Details</h5>
-      <div><span>id: </span>{{selectedArticle.id}}</div>
-      <div>
-        <label for="article-name">Article name: </label>
-        <input id="article-name" [(ngModel)]="selectedArticle.name" placeholder="name">
+      <h5>Article details</h5>
+      <div class="input-field">
+        <i class="material-icons prefix">qr_code</i>
+        <label class="active" for="article-id">ID</label>
+        <input id="article-id" value="{{selectedArticle.id}}" type="text" disabled>
+      </div>
+      <div class="input-field">
+        <i class="material-icons prefix">short_text</i>
+        <label class="active" for="article-name">Name</label>
+        <input id="article-name" [(ngModel)]="selectedArticle.name" type="text" placeholder="name">
+      </div>
+      <div class="input-field">
+        <i class="material-icons prefix">euro</i>
+        <label class="active" for="article-price">Price</label>
+        <input id="article-price" [(ngModel)]="selectedArticle.price" type="text" placeholder="price">
       </div>
     </div>
 
     <div *ngIf="newArticle" class="col s6">
       <h5>New Article</h5>
       <div class="input-field">
-        <label class="active" for="article-id">New Article ID</label>
-        <input id="article-id" value="{{newArticle.id}}" type="text" disabled>
+        <i class="material-icons prefix">qr_code</i>
+        <label class="active" for="article-id">ID</label>
+        <input id="article-id" [(ngModel)]="newArticle.id" type="text" placeholder="id">
       </div>
       <div class="input-field">
-        <label for="article-name">New Article name</label>
+        <i class="material-icons prefix">short_text</i>
+        <label class="active" for="article-name">Name</label>
         <input id="article-name" [(ngModel)]="newArticle.name" type="text" placeholder="name">
+      </div>
+      <div class="input-field">
+        <i class="material-icons prefix">euro</i>
+        <label class="active" for="article-price">Price</label>
+        <input id="article-price" [(ngModel)]="newArticle.price" type="text" placeholder="price">
       </div>
       <a class="waves-effect waves-light btn red" (click)="closeNewArticle(false)" ><i class="material-icons right">close</i>Cancel</a>
       <a class="waves-effect waves-light btn" (click)="closeNewArticle(true)" [attr.disabled]="newArticle.name ? null : 'disabled'"><i class="material-icons right">done</i>Confirm</a>
