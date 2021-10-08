@@ -27,5 +27,6 @@ ng generate component articles
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 ```
 
-* definizione interfaccia Article in `article.ts`
+* definizione classe Article in `article.ts`
 * definizione dati di esempio in `data.ts`
+* implementazione griglia e form di edit/inserimento dati nel componente articles

@@ -19,7 +19,7 @@ export class ArticlesComponent implements OnInit {
 
   createNewArticle(): void {
     this.selectedArticle = undefined;
-    this.newArticle = { id: ARTICLES.length, name: '', price: 0 };
+    this.newArticle = new Article();
   }
 
   closeNewArticle(confirm: boolean) : void {
