@@ -20,7 +20,9 @@ public class OrderContext : DbContext
             .ValueGeneratedOnAdd()
             .IsRequired();
 
-        modelBuilder.Entity<OrderEntity>().HasMany(t => t.ProductEntities);
+        modelBuilder.Entity<OrderEntity>().HasMany(t => t.ProductEntities)
+            .WithOne(t => t.Order)
+            .HasForeignKey(t => t.OrderId);
 
         modelBuilder.Entity<ProductEntity>().HasKey(t => t.Id);
         modelBuilder.Entity<ProductEntity>().Property(t => t.Id)

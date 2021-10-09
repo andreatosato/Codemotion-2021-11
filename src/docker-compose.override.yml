@@ -25,3 +25,8 @@ services:
     environment:
         SA_PASSWORD: "m1Password@12J"
         ACCEPT_EULA: "Y"
+
+  # OpenTelemetry
+  zipkin:
+    ports:
+    - 9411:9411

@@ -15,7 +15,7 @@ public class OrderEntity
             var totalPrice = 0m;
             foreach (var p in ProductEntities)
             {
-                totalPrice += p.SoldPrice;
+                totalPrice += p.SoldPrice * p.Quantity;
             }
             return totalPrice;
         }

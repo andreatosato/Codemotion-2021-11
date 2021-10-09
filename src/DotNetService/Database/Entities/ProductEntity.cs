@@ -7,5 +7,6 @@
         public int ProductId { get; set; }
         public decimal Quantity { get; set; }
         public decimal SoldPrice { get; set; }
+        public OrderEntity Order { get; }
     }
 }

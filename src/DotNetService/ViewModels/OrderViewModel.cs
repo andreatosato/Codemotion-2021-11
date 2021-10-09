@@ -1,6 +1,6 @@
 ﻿
 namespace Orders.ViewModels;
-public class OrderViewModel
+public class OrderCreateViewModel
 {
     public List<ProductViewModel> Products { get; set; }
 }

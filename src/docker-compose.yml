@@ -29,6 +29,14 @@ services:
       - sqlserverdata:/var/lib/sqlserver
   # Databases
 
+
+  # OpenTelemetry
+  zipkin:
+    container_name: zipkin
+    image: openzipkin/zipkin
+
+  # OpenTelemetry
+
 volumes:
   sqlserverdata:
     driver: local
