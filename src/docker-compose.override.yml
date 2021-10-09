@@ -1,4 +1,11 @@
 services:
+  envoy:
+    volumes:
+        - ./Ingress:/etc/envoy
+    ports:
+        - "10000:10000"
+        - "9901:9901"
+
   orders:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development

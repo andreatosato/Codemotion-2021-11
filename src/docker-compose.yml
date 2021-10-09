@@ -1,4 +1,10 @@
 services:
+  # ingress
+  envoy:
+    container_name: envoy
+    image: envoyproxy/envoy-alpine:v1.18-latest
+  
+  # microservices
   orders:
     container_name: orders
     image: opentelemetry/orders
