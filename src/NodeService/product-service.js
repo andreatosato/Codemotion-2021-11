@@ -19,7 +19,7 @@ const productDbSet = mongoose.model('Product', productSchema);
 
 // Setup express
 const app = express();
-const PORT = 3000;
+const PORT = 5000;
 
 const getCrudController = () => {
   const router = express.Router();

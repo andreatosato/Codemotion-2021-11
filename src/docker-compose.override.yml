@@ -1,0 +1,27 @@
+services:
+  orders:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - SqlConnection=Data Source=sqlserver;Database=Orders;User Id=sa;Password="m1Password@12J";
+    ports:
+      - "4000:80"
+
+
+  products:
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=example
+    ports:
+      - "5000:5000"
+
+  # Only for inspect data
+  mongodb:
+    ports:
+      - "27017:27017"
+ 
+  sqlserver:
+    ports:
+        - 1433:1433
+    environment:
+        SA_PASSWORD: "m1Password@12J"
+        ACCEPT_EULA: "Y"

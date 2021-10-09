@@ -1,0 +1,34 @@
+services:
+  orders:
+    container_name: orders
+    image: opentelemetry/orders
+    build:
+      context: .
+      dockerfile: DotNetService/Dockerfile
+    depends_on:
+        - sqlserver
+
+  products:
+    container_name: products
+    image: opentelemetry/products
+    build:
+      context: ./NodeService
+      dockerfile: Dockerfile
+    depends_on:
+        - mongodb
+  
+  # Databases
+  mongodb:
+    container_name: products-mongodb
+    image: mongo:latest
+
+  sqlserver:
+    container_name: sqlserver
+    image: "mcr.microsoft.com/mssql/server"    
+    volumes:
+      - sqlserverdata:/var/lib/sqlserver
+  # Databases
+
+volumes:
+  sqlserverdata:
+    driver: local
