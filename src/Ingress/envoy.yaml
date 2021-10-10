@@ -104,7 +104,7 @@ static_resources:
                   address:
                     socket_address:
                       address: orders
-                      port_value: 5000
+                      port_value: 4000
   - name: products
     connect_timeout: 0.25s
     type: strict_dns
@@ -116,7 +116,7 @@ static_resources:
                   address:
                     socket_address:
                       address: products
-                      port_value: 4000
+                      port_value: 5000
   - name: store
     connect_timeout: 0.25s
     type: strict_dns
