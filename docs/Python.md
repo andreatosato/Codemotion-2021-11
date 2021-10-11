@@ -6,7 +6,9 @@ python get-pip.py
 3. Crea file app.py
 4. Crea Virtual Env
 py -3 -m venv venv
-venv\Scripts\activate.bat
+
+.\venv\Scripts\activate
+
 
 
 5. Install:
