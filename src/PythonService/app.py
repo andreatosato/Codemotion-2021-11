@@ -1,13 +1,21 @@
 from flask import Flask
 from flask import request
 from flask import jsonify, abort
+from sqlalchemy import create_engine
+from sqlalchemy_utils import database_exists, create_database
 from opentelemetry.instrumentation.flask import FlaskInstrumentor
 
 app = Flask(__name__)
 FlaskInstrumentor().instrument_app(app, excluded_urls="client/.*/info,healthcheck")
-app.config['SQLALCHEMY_DATABASE_URI'] = "mssql+pymssql://sa:m1Password[12J@sqlserver/Store"
+connectionString = "mssql+pymssql://sa:m1Password[12J@sqlserver/Store"
+app.config['SQLALCHEMY_DATABASE_URI'] = connectionString
 
-from models import db, Store
+from models import db, Store, metadata
+
+engine = create_engine(connectionString)
+if not database_exists(engine.url):
+    create_database(engine.url)
+    metadata.create_all(engine)
 
 db.init_app(app)
 
@@ -24,7 +32,7 @@ def GetProductAvailability(productId):
     else:
         abort(404)
 
-@app.route('/set/<productId>', methods = ['POST'])
+@app.route('/set', methods = ['POST'])
 def SetProductAvailability():
     productAvailability = request.get_json()
     productId = productAvailability["productId"]

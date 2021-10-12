@@ -1,6 +1,6 @@
 flask 
 flask_sqlalchemy
-
+sqlalchemy-utils
 # In Windows
 # pymssql-2.2.2-cp310-cp310-win_amd64.whl
 
