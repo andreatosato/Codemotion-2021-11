@@ -12,16 +12,16 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let article of articles" class="collection-item" [class.selected]="article === selectedArticle" (click)="onSelect(article)">
+        <tr *ngFor="let article of articles" class="collection-item" [ngClass]="{'teal lighten-1 white-text' : article === selectedArticle}" (click)="onSelect(article)">
           <td>{{article.id}}</td>
           <td>{{article.name}}</td>
-          <td class="right-align">{{article.price}} €</td>
+          <td class="right-align">{{article.price | number:'1.2-2'}} €</td>
         </tr>
       </tbody>
     </table>
 
     <div *ngIf="selectedArticle" class="col s6">
-      <h5>Article details</h5>
+      <h6>Article details</h6>
       <div class="input-field">
         <i class="material-icons prefix">qr_code</i>
         <label class="active" for="article-id">ID</label>
@@ -40,7 +40,7 @@
     </div>
 
     <div *ngIf="newArticle" class="col s6">
-      <h5>New Article</h5>
+      <h6>New Article</h6>
       <div class="input-field">
         <i class="material-icons prefix">qr_code</i>
         <label class="active" for="article-id">ID</label>
@@ -56,8 +56,8 @@
         <label class="active" for="article-price">Price</label>
         <input id="article-price" [(ngModel)]="newArticle.price" type="text" placeholder="price">
       </div>
-      <a class="waves-effect waves-light btn red" (click)="closeNewArticle(false)" ><i class="material-icons right">close</i>Cancel</a>
-      <a class="waves-effect waves-light btn" (click)="closeNewArticle(true)" [attr.disabled]="newArticle.name ? null : 'disabled'"><i class="material-icons right">done</i>Confirm</a>
+      <a class="left waves-effect waves-light btn red" (click)="closeNewArticle(false)" ><i class="material-icons right">close</i>Cancel</a>
+      <a class="right waves-effect waves-light btn" (click)="closeNewArticle(true)" [attr.disabled]="newArticle.name ? null : 'disabled'"><i class="material-icons right">done</i>Confirm</a>
     </div>
   </div>
 </div>

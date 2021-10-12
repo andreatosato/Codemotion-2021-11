@@ -1,4 +1,7 @@
 import { Article } from './article';
+import { Order } from './order';
+
+export const ORDERS: Order[] = [];
 
 export const ARTICLES: Article[] = [{
     "id": 134,

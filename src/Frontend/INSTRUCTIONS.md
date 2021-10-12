@@ -30,3 +30,16 @@ ng generate component articles
 * definizione classe Article in `article.ts`
 * definizione dati di esempio in `data.ts`
 * implementazione griglia e form di edit/inserimento dati nel componente articles
+* creazione componente ordini
+```
+ng generate component orders
+```
+
+* modifica di `app.component.ts` per eseguire l'inizializzazione dei componenti JS di materialize CSS una volta che i componenti sono stati caricati
+```js
+declare const M: any;
+...
+ngAfterViewInit() {
+    M.AutoInit();
+}
+``` 
