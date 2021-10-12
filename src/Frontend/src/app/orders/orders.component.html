@@ -36,29 +36,29 @@
             <tr>
                 <td>Article</td>
                 <td>Amount</td>
+                <td>&nbsp;</td>
             </tr>
         </thead>
         <tbody>
             <tr>
                 <td><div class="input-field col s12">
-                    <select>
+                    <select class="browser-default" [(ngModel)]="selectedArticle">
                         <option value="" disabled selected>Choose your option</option>
-                        <option value="1">Option 1</option>
-                        <option value="2">Option 2</option>
-                        <option value="3">Option 3</option>
+                        <option *ngFor="let article of articles" value="{{article.id}}">{{article.name}}</option>
                     </select>
-                    <label>Materialize Select</label>
                 </div></td>
-                <td>0</td>
+                <td>&nbsp;</td>
+                <td><a class="waves-effect waves-light btn-floating btn-small green" (click)="addArticle()" ><i class="material-icons right">add</i></a></td>
             </tr>
-            <tr *ngFor="let article of newOrder.articles" class="collection-item">
-                <td>{{article.name}}</td>
-                <td>0</td>
+            <tr *ngFor="let item of newOrder.items" class="collection-item">
+                <td>{{item.article.name}}</td>
+                <td>{{item.amount}}</td>
+                <td><a class="waves-effect waves-light btn-floating btn-small red" (click)="removeArticle(item.article.id)" ><i class="material-icons right">close</i></a></td>
             </tr>
         </tbody>
       </table>
       <a class="left waves-effect waves-light btn red" (click)="closeNewOrder(false)" ><i class="material-icons right">close</i>Cancel</a>
-      <a class="right waves-effect waves-light btn" (click)="closeNewOrder(true)" [attr.disabled]="newOrder.articles.length > 0 ? null : 'disabled'"><i class="material-icons right">done</i>Confirm</a>
+      <a class="right waves-effect waves-light btn" (click)="closeNewOrder(true)" [attr.disabled]="newOrder.items.length > 0 ? null : 'disabled'"><i class="material-icons right">done</i>Confirm</a>
     </div>
   </div>
 </div>

@@ -1,15 +1,16 @@
 import { Article } from './article';
+import { BasketItem } from './basketitem';
 
 export class Order {
     id: number;
     creationDate: Date;
-    articles: Article[];
+    items: BasketItem[];
 
     getPrice() {
         let total = 0;
 
-        for(let article of this.articles)
-            total += article.price;
+        for(let item of this.items)
+            total += item.article.price * item.amount;
 
         return total;
     }
@@ -17,6 +18,6 @@ export class Order {
     constructor() {
         this.id = 0;
         this.creationDate = new Date();
-        this.articles = [];
+        this.items = [];
     }
 }
