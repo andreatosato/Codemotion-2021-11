@@ -1,6 +1,9 @@
 flask 
 flask_sqlalchemy
-pyodbc
+
+# In Windows
+# pymssql-2.2.2-cp310-cp310-win_amd64.whl
+
 opentelemetry-api
 opentelemetry-sdk
 opentelemetry-instrumentation-flask
@@ -12,6 +15,6 @@ opentelemetry-instrumentation-sqlalchemy
 
 # Installare questa libreria
 # https://visualstudio.microsoft.com/visual-cpp-build-tools/
-
+# https://www.lfd.uci.edu/~gohlke/pythonlibs/#pyodbc
 
 # https://stackoverflow.com/questions/46405777/connect-docker-python-to-sql-server-with-pyodbc

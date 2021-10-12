@@ -9,7 +9,7 @@ services:
   orders:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - SqlConnection=Data Source=sqlserver;Database=Orders;User Id=sa;Password="m1Password@12J";
+      - SqlConnection=Data Source=sqlserver;Database=Orders;User Id=sa;Password="m1Password[12J";
     ports:
       - "4000:80"
 
@@ -30,7 +30,7 @@ services:
     ports:
         - 1433:1433
     environment:
-        SA_PASSWORD: "m1Password@12J"
+        SA_PASSWORD: "m1Password[12J"
         ACCEPT_EULA: "Y"
 
   # OpenTelemetry

@@ -5,8 +5,7 @@ from opentelemetry.instrumentation.flask import FlaskInstrumentor
 
 app = Flask(__name__)
 FlaskInstrumentor().instrument_app(app, excluded_urls="client/.*/info,healthcheck")
-app.config['SQLALCHEMY_DATABASE_URI'] = "mssql+pyodbc://sa:m1Password@12J@sqlserver" #'Server=sqlserver;Database=AvailabilityDB;UserId=sa;Password=m1Password@12J;'
-# connection_string = "DRIVER={SQL Server Native Client 10.0};SERVER=dagger;DATABASE=test;UID=user;PWD=password" 
+app.config['SQLALCHEMY_DATABASE_URI'] = "mssql+pymssql://sa:m1Password[12J@sqlserver/Store"
 
 from models import db, Store
 
