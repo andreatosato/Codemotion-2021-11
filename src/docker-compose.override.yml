@@ -21,6 +21,10 @@ services:
     ports:
       - "5000:5000"
 
+  store:
+    ports:
+      - "600:600"
+
   # Only for inspect data
   mongodb:
     ports:
@@ -32,6 +36,7 @@ services:
     environment:
         SA_PASSWORD: "m1Password[12J"
         ACCEPT_EULA: "Y"
+    mem_limit: 4G
 
   # OpenTelemetry
   zipkin:

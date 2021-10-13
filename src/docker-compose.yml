@@ -22,6 +22,15 @@ services:
       dockerfile: Dockerfile
     depends_on:
         - mongodb
+
+  store:
+    container_name: store
+    image: opentelemetry/store
+    build:
+      context: ./PythonService
+      dockerfile: Dockerfile
+    depends_on:
+        - sqlserver
   
   # Databases
   mongodb:

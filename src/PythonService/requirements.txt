@@ -3,7 +3,8 @@ flask_sqlalchemy
 sqlalchemy-utils
 # In Windows
 # pymssql-2.2.2-cp310-cp310-win_amd64.whl
-pymssql
+# pymssql
+pymssql-2.2.2-cp39-cp39-manylinux_2_5_x86_64.manylinux1_x86_64.whl
 opentelemetry-api
 opentelemetry-sdk
 opentelemetry-instrumentation-flask

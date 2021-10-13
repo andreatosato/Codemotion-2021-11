@@ -1,5 +1,5 @@
 # Use an official Python runtime as a parent image
-FROM python:3.10-slim-buster
+FROM python:3.9-slim-buster
 
 # Set the working directory to /app
 WORKDIR /app
@@ -19,4 +19,5 @@ RUN apt-get clean -y
 RUN pip --verbose install -r requirements.txt
 
 # Run app.py when the container launches
-CMD ["python", "App.py"]
+CMD ["python", "app.py", "--port", "600"]
+EXPOSE 600

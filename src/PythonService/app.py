@@ -12,10 +12,13 @@ app.config['SQLALCHEMY_DATABASE_URI'] = connectionString
 
 from models import db, Store, metadata
 
-engine = create_engine(connectionString)
-if not database_exists(engine.url):
-    create_database(engine.url)
-    metadata.create_all(engine)
+try:
+    engine = create_engine(connectionString)
+    if not database_exists(engine.url):
+        create_database(engine.url)
+        metadata.create_all(engine)
+except:
+    print('Create database error!')
 
 db.init_app(app)
 
