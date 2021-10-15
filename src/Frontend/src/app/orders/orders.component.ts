@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Article } from '../article';
 import { Order } from '../order';
-import { ARTICLES, ORDERS } from '../data';
 import { BasketItem } from '../basketitem';
+import { ArticleService } from '../article.service';
+import { OrderService } from '../order.service';
 
 declare const M: any;
 
@@ -12,8 +13,8 @@ declare const M: any;
   styleUrls: ['./orders.component.css']
 })
 export class OrdersComponent implements OnInit {
-  articles = ARTICLES;
-  orders = ORDERS;
+  articles: Article[] = [];
+  orders: Order[] = [];
   selectedOrder?: Order;
   newOrder?: Order;
   selectedArticle? : number;
@@ -26,11 +27,12 @@ export class OrdersComponent implements OnInit {
   createNewOrder(): void {
     this.selectedOrder = undefined;
     this.newOrder = new Order();
+    this.newOrder.id = this.orders.length + 1;
   }
 
   closeNewOrder(confirm: boolean): void {
     if (confirm && this.newOrder)
-      ORDERS.push(this.newOrder);
+      this.orderSrv.addOrder(this.newOrder);
 
     this.newOrder = undefined;
   }
@@ -63,9 +65,11 @@ export class OrdersComponent implements OnInit {
     }
   }
 
-  constructor() { }
+  constructor(private articleSrv: ArticleService, private orderSrv: OrderService) { }
 
   ngOnInit(): void {
+    this.articleSrv.getArticles().subscribe(result => this.articles = result);
+    this.orderSrv.getOrders().subscribe(result => this.orders = result);
   }
 
   ngDoCheck(): void {

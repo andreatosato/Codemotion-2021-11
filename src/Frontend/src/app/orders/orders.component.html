@@ -14,8 +14,8 @@
       <tbody>
         <tr *ngFor="let order of orders" class="collection-item" [class.selected]="order === selectedOrder" (click)="onSelect(order)">
           <td>{{order.id}}</td>
-          <td>{{order.creationDate}}</td>
-          <td class="right-align">{{order.getPrice()}} €</td>
+          <td>{{order.creationDate | date:'medium'}}</td>
+          <td class="right-align">{{order.getPrice() | number:'1.2-2'}} €</td>
         </tr>
       </tbody>
     </table>
@@ -52,7 +52,7 @@
             </tr>
             <tr *ngFor="let item of newOrder.items" class="collection-item">
                 <td>{{item.article.name}}</td>
-                <td>{{item.amount}}</td>
+                <td><input class="validate" [(ngModel)]="item.amount" type="text" pattern="[0-9]+"></td>
                 <td><a class="waves-effect waves-light btn-floating btn-small red" (click)="removeArticle(item.article.id)" ><i class="material-icons right">close</i></a></td>
             </tr>
         </tbody>
