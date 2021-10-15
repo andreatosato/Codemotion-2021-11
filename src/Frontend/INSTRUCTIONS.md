@@ -43,3 +43,5 @@ ngAfterViewInit() {
     M.AutoInit();
 }
 ``` 
+
+* creazione dei servizi `article.service.ts` e `order.service.ts`, integrazione con i componenti
