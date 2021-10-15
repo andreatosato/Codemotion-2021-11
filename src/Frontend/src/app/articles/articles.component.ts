@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Article } from '../article';
-import { ARTICLES } from '../data';
+import { ArticleService } from '../article.service';
 
 @Component({
   selector: 'app-articles',
@@ -8,7 +8,7 @@ import { ARTICLES } from '../data';
   styleUrls: ['./articles.component.css']
 })
 export class ArticlesComponent implements OnInit {
-  articles = ARTICLES;
+  articles: Article[] = [];
   selectedArticle?: Article;
   newArticle?: Article;
 
@@ -22,16 +22,23 @@ export class ArticlesComponent implements OnInit {
     this.newArticle = new Article();
   }
 
+  isNewArticleValid(): boolean {
+    var isValid = true;
+    document.querySelectorAll("input.validate").forEach(el => isValid = isValid && el.classList.contains("valid"));
+    return isValid;
+  }
+
   closeNewArticle(confirm: boolean) : void {
     if (confirm && this.newArticle)
-      ARTICLES.push(this.newArticle);
+      this.articleSrv.addArticle(this.newArticle);
 
     this.newArticle = undefined;
   }
 
-  constructor() { }
+  constructor(private articleSrv : ArticleService) { }
 
   ngOnInit(): void {
+    this.articleSrv.getArticles().subscribe(result => this.articles = result);
   }
 
 }

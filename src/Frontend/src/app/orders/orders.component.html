@@ -1,0 +1,64 @@
+<div class="container">
+  <h5>Orders page</h5>
+  <a class="waves-effect waves-light btn" (click)="createNewOrder()"><i class="material-icons right">add</i>New order</a>
+  <hr>
+  <div class="row">
+    <table class="col s6 striped">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Creation date</th>
+          <th class="right-align">Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let order of orders" class="collection-item" [class.selected]="order === selectedOrder" (click)="onSelect(order)">
+          <td>{{order.id}}</td>
+          <td>{{order.creationDate | date:'medium'}}</td>
+          <td class="right-align">{{order.getPrice() | number:'1.2-2'}} €</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div *ngIf="selectedOrder" class="col s6">
+      <h6>Order details</h6>
+    </div>
+
+    <div *ngIf="newOrder" class="col s6">
+      <h6>New order</h6>
+      <div class="input-field">
+        <i class="material-icons prefix">qr_code</i>
+        <label class="active" for="article-id">ID</label>
+        <input id="article-id" [(ngModel)]="newOrder.id" type="text" placeholder="id" disabled>
+      </div>
+      <table class="striped">
+        <thead>
+            <tr>
+                <td>Article</td>
+                <td>Amount</td>
+                <td>&nbsp;</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><div class="input-field col s12">
+                    <select class="browser-default" [(ngModel)]="selectedArticle">
+                        <option value="" disabled selected>Choose your option</option>
+                        <option *ngFor="let article of articles" value="{{article.id}}">{{article.name}}</option>
+                    </select>
+                </div></td>
+                <td>&nbsp;</td>
+                <td><a class="waves-effect waves-light btn-floating btn-small green" (click)="addArticle()" ><i class="material-icons right">add</i></a></td>
+            </tr>
+            <tr *ngFor="let item of newOrder.items" class="collection-item">
+                <td>{{item.article.name}}</td>
+                <td><input class="validate" [(ngModel)]="item.amount" type="text" pattern="[0-9]+"></td>
+                <td><a class="waves-effect waves-light btn-floating btn-small red" (click)="removeArticle(item.article.id)" ><i class="material-icons right">close</i></a></td>
+            </tr>
+        </tbody>
+      </table>
+      <a class="left waves-effect waves-light btn red" (click)="closeNewOrder(false)" ><i class="material-icons right">close</i>Cancel</a>
+      <a class="right waves-effect waves-light btn" (click)="closeNewOrder(true)" [attr.disabled]="newOrder.items.length > 0 ? null : 'disabled'"><i class="material-icons right">done</i>Confirm</a>
+    </div>
+  </div>
+</div>
