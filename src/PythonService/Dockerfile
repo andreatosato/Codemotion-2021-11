@@ -19,5 +19,5 @@ RUN apt-get clean -y
 RUN pip --verbose install -r requirements.txt
 
 # Run app.py when the container launches
-CMD ["python", "app.py", "--port", "600"]
+CMD ["python", "app.py", "run", "--no-debugger","--port", "600"]
 EXPOSE 600

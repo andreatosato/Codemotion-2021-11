@@ -22,11 +22,17 @@ services:
       - "5000:5000"
 
   store:
+    environment:
+        - FLASK_APP=app.py
+        - FLASK_ENV=development
     ports:
       - "600:600"
 
   # Only for inspect data
   mongodb:
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
     ports:
       - "27017:27017"
  

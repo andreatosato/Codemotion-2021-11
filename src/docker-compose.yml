@@ -34,7 +34,7 @@ services:
   
   # Databases
   mongodb:
-    container_name: products-mongodb
+    container_name: mongodb
     image: mongo:latest
 
   sqlserver:
