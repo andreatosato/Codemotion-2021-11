@@ -12,14 +12,10 @@ const { NodeTracerProvider } = require('@opentelemetry/sdk-trace-node');
 const { SimpleSpanProcessor } = require('@opentelemetry/sdk-trace-base');
 const { JaegerExporter } = require('@opentelemetry/exporter-jaeger');
 const { ZipkinExporter } = require('@opentelemetry/exporter-zipkin');
+const { MongoDBInstrumentation } = require('@opentelemetry/instrumentation-mongodb');
 const { Resource } = require('@opentelemetry/resources');
 const { SemanticAttributes, SemanticResourceAttributes: ResourceAttributesSC } = require('@opentelemetry/semantic-conventions');
 
-const zipkin = new ZipkinExporter({url: 'http://zipkin:9411/api/v2/spans'});
-const jaeger = new JaegerExporter({url: 'http://jaeger:14268/api/traces'});
-
-const Exporter = (process.env.EXPORTER || '')
-  .toLowerCase().startsWith('z') ? zipkin : jaeger;
 const { ExpressInstrumentation } = require('@opentelemetry/instrumentation-express');
 const { HttpInstrumentation } = require('@opentelemetry/instrumentation-http');
 
@@ -33,15 +29,15 @@ module.exports = (serviceName) => {
   registerInstrumentations({
     tracerProvider: provider,
     instrumentations: [
-      // Express instrumentation expects HTTP layer to be instrumented
       HttpInstrumentation,
       ExpressInstrumentation,
+      MongoDBInstrumentation,
     ],
   });
 
-  const exporter = new Exporter({
-    serviceName,
-  });
+  const zipkin = new ZipkinExporter({url: 'http://zipkin:9411/api/v2/spans', serviceName: serviceName});
+  const jaeger = new JaegerExporter({url: 'http://jaeger:14268/api/traces', serviceName: serviceName});
+  const exporter = (process.env.EXPORTER || '').toLowerCase().startsWith('z') ? zipkin : jaeger;
 
   provider.addSpanProcessor(new SimpleSpanProcessor(exporter));
 

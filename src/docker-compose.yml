@@ -3,6 +3,11 @@ services:
   envoy:
     container_name: envoy
     image: envoyproxy/envoy-alpine:v1.18-latest
+    depends_on:
+        - orders
+        - products
+        - store
+        - zipkin
   
   # microservices
   orders:
@@ -13,6 +18,7 @@ services:
       dockerfile: DotNetService/Dockerfile
     depends_on:
         - sqlserver
+        - zipkin
 
   products:
     container_name: products
@@ -22,6 +28,7 @@ services:
       dockerfile: Dockerfile
     depends_on:
         - mongodb
+        - zipkin
 
   store:
     container_name: store
@@ -31,6 +38,7 @@ services:
       dockerfile: Dockerfile
     depends_on:
         - sqlserver
+        - zipkin
   
   # Databases
   mongodb:
