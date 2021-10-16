@@ -15,8 +15,11 @@ const { ZipkinExporter } = require('@opentelemetry/exporter-zipkin');
 const { Resource } = require('@opentelemetry/resources');
 const { SemanticAttributes, SemanticResourceAttributes: ResourceAttributesSC } = require('@opentelemetry/semantic-conventions');
 
+const zipkin = new ZipkinExporter({url: 'http://zipkin:9411/api/v2/spans'});
+const jaeger = new JaegerExporter({url: 'http://jaeger:14268/api/traces'});
+
 const Exporter = (process.env.EXPORTER || '')
-  .toLowerCase().startsWith('z') ? ZipkinExporter : JaegerExporter;
+  .toLowerCase().startsWith('z') ? zipkin : jaeger;
 const { ExpressInstrumentation } = require('@opentelemetry/instrumentation-express');
 const { HttpInstrumentation } = require('@opentelemetry/instrumentation-http');
 

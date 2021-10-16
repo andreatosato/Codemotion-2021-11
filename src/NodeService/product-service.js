@@ -48,12 +48,12 @@ const getCrudController = () => {
         country: newProduct.country
       });
       await productNew.save();
+
+      newProduct.id = productNew._id;
+      return res.status(201).send(newProduct);
     }
     else
       return res.status(409).send(old);
-
-
-    return res.status(201).send(req.body);
   });
   return router;
 };
