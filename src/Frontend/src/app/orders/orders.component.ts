@@ -17,7 +17,7 @@ export class OrdersComponent implements OnInit {
   orders: Order[] = [];
   selectedOrder?: Order;
   newOrder?: Order;
-  selectedArticle? : number;
+  selectedArticle?: number;
 
   onSelect(order: Order): void {
     if (!this.newOrder)
@@ -28,6 +28,7 @@ export class OrdersComponent implements OnInit {
     this.selectedOrder = undefined;
     this.newOrder = new Order();
     this.newOrder.id = this.orders.length + 1;
+    this.selectedArticle = undefined;
   }
 
   closeNewOrder(confirm: boolean): void {
@@ -38,29 +39,25 @@ export class OrdersComponent implements OnInit {
   }
 
   addArticle(): void {
-    if(this.selectedArticle && this.newOrder)
-    {
+    if (this.selectedArticle && this.newOrder) {
       let articleId = Number(this.selectedArticle);
       let item = this.newOrder.items.find(i => i.article.id === articleId);
 
-      if(item)
+      if (item)
         item.amount++;
-      else
-      {
+      else {
         let article = this.articles.find(a => a.id === articleId);
 
-        if(article)
+        if (article)
           this.newOrder.items.push(new BasketItem(article));
       }
     }
-    this.selectedArticle = undefined;
   }
 
   removeArticle(id: number): void {
-    if(this.newOrder)
-    {
+    if (this.newOrder) {
       let index = this.newOrder.items.findIndex(i => i.article.id === id);
-      if(index > -1)
+      if (index > -1)
         this.newOrder.items.splice(index, 1);
     }
   }
@@ -74,7 +71,7 @@ export class OrdersComponent implements OnInit {
 
   ngDoCheck(): void {
     var selects = document.querySelectorAll('select.materialize');
-    if(selects.length)
+    if (selects.length)
       M.FormSelect.init(selects, {});
   }
 }
