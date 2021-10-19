@@ -10,6 +10,7 @@ from opentelemetry.instrumentation.requests import RequestsInstrumentor
 from opentelemetry.exporter.zipkin.json import ZipkinExporter
 from opentelemetry.sdk.trace import TracerProvider
 from opentelemetry.sdk.trace.export import BatchSpanProcessor
+from opentelemetry.instrumentation.sqlalchemy import SQLAlchemyInstrumentor
 from opentelemetry.propagate import set_global_textmap
 from opentelemetry.propagators.b3 import B3MultiFormat
 
@@ -48,17 +49,22 @@ try:
     if not database_exists(engine.url):
         create_database(engine.url)
         metadata.create_all(engine)
+        print('Create database!')
 except:
     print('Create database error!')
 
+SQLAlchemyInstrumentor().instrument(
+    engine=engine,
+)
+
 db.init_app(app)
 
-@app.route('/')
+@app.route('/store/', methods = ['GET'])
 def GetAllStore():
     result = db.session.query(Store).all()
     return jsonify([{"productId":r.productId, "availability":r.availability} for r in result])
 
-@app.route('/<productId>')
+@app.route('/store/<productId>')
 def GetProductAvailability(productId):
     result = db.session.query(Store).filter_by(productId=productId).one_or_none()
     if result:
@@ -66,7 +72,7 @@ def GetProductAvailability(productId):
     else:
         abort(404)
 
-@app.route('/set', methods = ['POST'])
+@app.route('/store/', methods = ['POST'])
 def SetProductAvailability():
     productAvailability = request.get_json()
     productId = productAvailability["productId"]
