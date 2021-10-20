@@ -7,6 +7,11 @@ Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orders", "DotNetService\Orders.csproj", "{53E528B5-349B-4193-9A7C-1240C0DA7C83}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Ingress", "Ingress", "{BC5F1964-A793-431E-9A79-D0783755E559}"
+	ProjectSection(SolutionItems) = preProject
+		Ingress\envoy.yaml = Ingress\envoy.yaml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

@@ -43,6 +43,21 @@ static_resources:
                         upstream_cluster: "%UPSTREAM_CLUSTER%"
                         upstream_local_address: "%UPSTREAM_LOCAL_ADDRESS%"
                       path: "/tmp/access.log"
+                  #- name: envoy.access_loggers.opentelemetry
+                  #  typed_config:
+                  #    "@type": type.googleapis.com/envoy.extensions.access_loggers.open_telemetry.v3.OpenTelemetryAccessLogConfig
+                  #    body:
+                  #       time: "%START_TIME%"
+                  #       protocol: "%PROTOCOL%"
+                  #       duration: "%DURATION%"
+                  #       request_method: "%REQ(:METHOD)%"
+                  #       request_host: "%REQ(HOST)%"
+                  #       path: "%REQ(X-ENVOY-ORIGINAL-PATH?:PATH)%"
+                  #       response_flags: "%RESPONSE_FLAGS%"
+                  #       route_name: "%ROUTE_NAME%"
+                  #       upstream_host: "%UPSTREAM_HOST%"
+                  #       upstream_cluster: "%UPSTREAM_CLUSTER%"
+                  #       upstream_local_address: "%UPSTREAM_LOCAL_ADDRESS%"
                 http_filters:
                   - name: envoy.filters.http.router
                 route_config:
@@ -63,27 +78,34 @@ static_resources:
                           match:
                             prefix: "/a/"
                           route:
-                            #prefix_rewrite: "/v1.0/invoke/catalog-api/method/"
+                            prefix_rewrite: "/"
                             cluster: aggregator
+
                         - name: "orders"
                           match:
                             prefix: "/o/"
                           route:
                             cluster: orders
+                            prefix_rewrite: "/"
+
                         - name: "products"
                           match:
                             prefix: "/p/"
                           route:
                             cluster: products
+                            prefix_rewrite: "/"
+
                         - name: "store"
                           match:
                             prefix: "/s/"
                           route:
                             cluster: store
+                            prefix_rewrite: "/"
   clusters:
   - name: aggregator
-    connect_timeout: 0.25s
-    type: strict_dns
+    connect_timeout: 1s
+    type: STRICT_DNS
+    lb_policy: ROUND_ROBIN
     load_assignment:
         cluster_name: aggregator
         endpoints:
@@ -94,8 +116,9 @@ static_resources:
                       address: aggregator                      
                       port_value: 2000
   - name: orders
-    connect_timeout: 0.25s
-    type: strict_dns
+    connect_timeout: 1s
+    type: STRICT_DNS
+    lb_policy: ROUND_ROBIN
     load_assignment:
         cluster_name: orders
         endpoints:
@@ -106,8 +129,9 @@ static_resources:
                       address: orders
                       port_value: 4000
   - name: products
-    connect_timeout: 0.25s
-    type: strict_dns
+    connect_timeout: 1s
+    type: STRICT_DNS
+    lb_policy: ROUND_ROBIN
     load_assignment:
         cluster_name: products
         endpoints:
@@ -118,8 +142,9 @@ static_resources:
                       address: products
                       port_value: 5000
   - name: store
-    connect_timeout: 0.25s
-    type: strict_dns
+    connect_timeout: 1s
+    type: STRICT_DNS
+    lb_policy: ROUND_ROBIN
     load_assignment:
         cluster_name: store
         endpoints:
@@ -128,7 +153,7 @@ static_resources:
                   address:
                     socket_address:
                       address: store
-                      port_value: 6000
+                      port_value: 600
   - name: zipkin
     connect_timeout: 1s
     type: STRICT_DNS
