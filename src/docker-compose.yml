@@ -2,7 +2,20 @@ services:
   # ingress
   envoy:
     container_name: envoy
-    image: envoyproxy/envoy-alpine:v1.18-latest
+    image: envoyproxy/envoy-alpine:v1.20-latest
+    depends_on:
+        - orders
+        - products
+        - store
+        - zipkin
+  
+  # aggregator
+  aggregator:
+    container_name: aggregator
+    image: opentelemetry/aggregator
+    build:
+      context: .
+      dockerfile: Aggregator/Dockerfile
     depends_on:
         - orders
         - products

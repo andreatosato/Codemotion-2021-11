@@ -30,34 +30,41 @@ static_resources:
                   - name: envoy.access_loggers.file
                     typed_config:
                       "@type": type.googleapis.com/envoy.extensions.access_loggers.file.v3.FileAccessLog                       
-                      json_format:
-                        time: "%START_TIME%"
-                        protocol: "%PROTOCOL%"
-                        duration: "%DURATION%"
-                        request_method: "%REQ(:METHOD)%"
-                        request_host: "%REQ(HOST)%"
-                        path: "%REQ(X-ENVOY-ORIGINAL-PATH?:PATH)%"
-                        response_flags: "%RESPONSE_FLAGS%"
-                        route_name: "%ROUTE_NAME%"
-                        upstream_host: "%UPSTREAM_HOST%"
-                        upstream_cluster: "%UPSTREAM_CLUSTER%"
-                        upstream_local_address: "%UPSTREAM_LOCAL_ADDRESS%"
+                      log_format:
+                         json_format:
+                            time: "%START_TIME%"
+                            protocol: "%PROTOCOL%"
+                            duration: "%DURATION%"
+                            request_method: "%REQ(:METHOD)%"
+                            request_host: "%REQ(HOST)%"
+                            path: "%REQ(X-ENVOY-ORIGINAL-PATH?:PATH)%"
+                            response_flags: "%RESPONSE_FLAGS%"
+                            route_name: "%ROUTE_NAME%"
+                            upstream_host: "%UPSTREAM_HOST%"
+                            upstream_cluster: "%UPSTREAM_CLUSTER%"
+                            upstream_local_address: "%UPSTREAM_LOCAL_ADDRESS%"
+                         content_type: "text/html; charset=UTF-8"
                       path: "/tmp/access.log"
-                  #- name: envoy.access_loggers.opentelemetry
+                  #- name: envoy.access_loggers.open_telemetry
                   #  typed_config:
                   #    "@type": type.googleapis.com/envoy.extensions.access_loggers.open_telemetry.v3.OpenTelemetryAccessLogConfig
+                  #    common_config:
+                  #      log_name: "opentelemetry"
+                  #      grpc_service:
+                  #          envoy_grpc: 
+                  #              cluster_name: "Ingress"
                   #    body:
-                  #       time: "%START_TIME%"
-                  #       protocol: "%PROTOCOL%"
-                  #       duration: "%DURATION%"
-                  #       request_method: "%REQ(:METHOD)%"
-                  #       request_host: "%REQ(HOST)%"
-                  #       path: "%REQ(X-ENVOY-ORIGINAL-PATH?:PATH)%"
-                  #       response_flags: "%RESPONSE_FLAGS%"
-                  #       route_name: "%ROUTE_NAME%"
-                  #       upstream_host: "%UPSTREAM_HOST%"
-                  #       upstream_cluster: "%UPSTREAM_CLUSTER%"
-                  #       upstream_local_address: "%UPSTREAM_LOCAL_ADDRESS%"
+                  #      time: "%START_TIME%"
+                  #      protocol: "%PROTOCOL%"
+                  #      duration: "%DURATION%"
+                  #      request_method: "%REQ(:METHOD)%"
+                  #      request_host: "%REQ(HOST)%"
+                  #      path: "%REQ(X-ENVOY-ORIGINAL-PATH?:PATH)%"
+                  #      response_flags: "%RESPONSE_FLAGS%"
+                  #      route_name: "%ROUTE_NAME%"
+                  #      upstream_host: "%UPSTREAM_HOST%"
+                  #      upstream_cluster: "%UPSTREAM_CLUSTER%"
+                  #      upstream_local_address: "%UPSTREAM_LOCAL_ADDRESS%"
                 http_filters:
                   - name: envoy.filters.http.router
                 route_config:
@@ -78,6 +85,7 @@ static_resources:
                           match:
                             prefix: "/a/"
                           route:
+                            auto_host_rewrite: true
                             prefix_rewrite: "/"
                             cluster: aggregator
 
@@ -85,8 +93,8 @@ static_resources:
                           match:
                             prefix: "/o/"
                           route:
-                            cluster: orders
                             prefix_rewrite: "/"
+                            cluster: orders
 
                         - name: "products"
                           match:
@@ -106,6 +114,7 @@ static_resources:
     connect_timeout: 1s
     type: STRICT_DNS
     lb_policy: ROUND_ROBIN
+    http2_protocol_options: {}
     load_assignment:
         cluster_name: aggregator
         endpoints:
@@ -115,10 +124,12 @@ static_resources:
                     socket_address:
                       address: aggregator                      
                       port_value: 2000
+
   - name: orders
-    connect_timeout: 1s
+    connect_timeout: 15s
     type: STRICT_DNS
     lb_policy: ROUND_ROBIN
+    http2_protocol_options: {}
     load_assignment:
         cluster_name: orders
         endpoints:
@@ -128,8 +139,9 @@ static_resources:
                     socket_address:
                       address: orders
                       port_value: 4000
+
   - name: products
-    connect_timeout: 1s
+    connect_timeout: 15s
     type: STRICT_DNS
     lb_policy: ROUND_ROBIN
     load_assignment:
@@ -141,6 +153,7 @@ static_resources:
                     socket_address:
                       address: products
                       port_value: 5000
+
   - name: store
     connect_timeout: 1s
     type: STRICT_DNS
@@ -154,6 +167,7 @@ static_resources:
                     socket_address:
                       address: store
                       port_value: 600
+
   - name: zipkin
     connect_timeout: 1s
     type: STRICT_DNS

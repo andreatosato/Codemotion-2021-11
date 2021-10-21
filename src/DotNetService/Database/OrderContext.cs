@@ -4,8 +4,8 @@ using Orders.Database.Entities;
 namespace Orders.Database;
 public class OrderContext : DbContext
 {
-    public DbSet<OrderEntity>? Orders { get; set; }
-    public DbSet<ProductEntity>? Products { get; set; }
+    public DbSet<OrderEntity> Orders { get; set; }
+    public DbSet<ProductEntity> Products { get; set; }
 
     public OrderContext(DbContextOptions<OrderContext> options) : base(options)
     {
@@ -28,6 +28,9 @@ public class OrderContext : DbContext
         modelBuilder.Entity<ProductEntity>().Property(t => t.Id)
             .ValueGeneratedOnAdd()
             .IsRequired();
+
+        modelBuilder.Entity<ProductEntity>().Property(t => t.SoldPrice).HasPrecision(15, 6);
+        modelBuilder.Entity<ProductEntity>().Property(t => t.Quantity).HasPrecision(15, 6);
     }
 
 }
