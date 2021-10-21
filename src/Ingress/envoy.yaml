@@ -114,7 +114,6 @@ static_resources:
     connect_timeout: 1s
     type: STRICT_DNS
     lb_policy: ROUND_ROBIN
-    http2_protocol_options: {}
     load_assignment:
         cluster_name: aggregator
         endpoints:
@@ -123,13 +122,12 @@ static_resources:
                   address:
                     socket_address:
                       address: aggregator                      
-                      port_value: 2000
+                      port_value: 80
 
   - name: orders
     connect_timeout: 15s
     type: STRICT_DNS
     lb_policy: ROUND_ROBIN
-    http2_protocol_options: {}
     load_assignment:
         cluster_name: orders
         endpoints:
@@ -138,7 +136,7 @@ static_resources:
                   address:
                     socket_address:
                       address: orders
-                      port_value: 4000
+                      port_value: 80
 
   - name: products
     connect_timeout: 15s
