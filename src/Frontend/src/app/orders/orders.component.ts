@@ -19,9 +19,8 @@ export class OrdersComponent implements OnInit {
   newOrder?: Order;
   selectedArticle?: number;
 
-  onSelect(order: Order): void {
-    if (!this.newOrder)
-      this.selectedOrder = order;
+  onSelect(order?: Order): void {
+    this.selectedOrder = order;
   }
 
   createNewOrder(): void {
@@ -65,8 +64,8 @@ export class OrdersComponent implements OnInit {
   constructor(private articleSrv: ArticleService, private orderSrv: OrderService) { }
 
   ngOnInit(): void {
-    this.articleSrv.getArticles().subscribe(result => this.articles = result);
-    this.orderSrv.getOrders().subscribe(result => this.orders = result);
+    this.articleSrv.getArticles().subscribe(result => this.articles.push(result));
+    this.orderSrv.getOrders().subscribe(result => this.orders.push(result));
   }
 
   ngDoCheck(): void {

@@ -3,11 +3,12 @@
   <a class="waves-effect waves-light btn" (click)="createNewArticle()"><i class="material-icons right">add</i>New article</a>
   <hr>
   <div class="row">
-    <table class="col s6 striped">
+    <table class="striped">
       <thead>
         <tr>
           <th>ID</th>
           <th>Name</th>
+          <th>Country</th>
           <th class="right-align">Price</th>
         </tr>
       </thead>
@@ -15,49 +16,75 @@
         <tr *ngFor="let article of articles" class="collection-item" [ngClass]="{'teal lighten-1 white-text' : article === selectedArticle}" (click)="onSelect(article)">
           <td>{{article.id}}</td>
           <td>{{article.name}}</td>
+          <td>{{article.country}}</td>
           <td class="right-align">{{article.price | number:'1.2-2'}} €</td>
         </tr>
       </tbody>
     </table>
 
-    <div *ngIf="selectedArticle" class="col s6">
-      <h6>Article details</h6>
-      <div class="input-field">
-        <i class="material-icons prefix">qr_code</i>
-        <label class="active" for="article-id">ID</label>
-        <input id="article-id" value="{{selectedArticle.id}}" type="text" disabled>
-      </div>
-      <div class="input-field">
-        <i class="material-icons prefix">short_text</i>
-        <label class="active" for="article-name">Name</label>
-        <input class="validate" id="article-name" [(ngModel)]="selectedArticle.name" type="text" placeholder="name" pattern="[a-zA-Z ]+">
-      </div>
-      <div class="input-field">
-        <i class="material-icons prefix">euro</i>
-        <label class="active" for="article-price">Price</label>
-        <input class="validate" id="article-price" [(ngModel)]="selectedArticle.price" type="text" placeholder="price" pattern="[0-9\.]+">
+    <div *ngIf="selectedArticle" class="cm-modal">
+      <div class="cm-modal-content z-depth-1">
+        <h5 class="center-align">Article details</h5>
+        <div class="input-field">
+          <i class="material-icons prefix">qr_code</i>
+          <label class="active" for="article-id">ID</label>
+          <input id="article-id" value="{{selectedArticle.id}}" type="number" disabled>
+        </div>
+        <div class="input-field">
+          <i class="material-icons prefix">short_text</i>
+          <label class="active" for="article-name">Name</label>
+          <input class="validate" id="article-name" [(ngModel)]="selectedArticle.name" type="text" placeholder="name" pattern="[a-zA-Z ]+">
+        </div>
+        <div class="input-field">
+          <i class="material-icons prefix">subject</i>
+          <label class="active" for="article-description">Description</label>
+          <input class="validate" id="article-description" [(ngModel)]="selectedArticle.description" type="text" placeholder="description">
+        </div>
+        <div class="input-field">
+          <i class="material-icons prefix">flag</i>
+          <label class="active" for="article-country">Country</label>
+          <input class="validate" id="article-country" [(ngModel)]="selectedArticle.country" type="text" placeholder="country" pattern="[a-zA-Z ]+">
+        </div>
+        <div class="input-field">
+          <i class="material-icons prefix">euro</i>
+          <label class="active" for="article-price">Price</label>
+          <input class="validate" id="article-price" [(ngModel)]="selectedArticle.price" type="number" step=".01" placeholder="price" pattern="[0-9\.]+">
+        </div>
+        <a class="right waves-effect waves-light btn" (click)="onSelect()" ><i class="material-icons right">close</i>Close</a>
       </div>
     </div>
 
-    <div *ngIf="newArticle" class="col s6">
-      <h6>New Article</h6>
-      <div class="input-field">
-        <i class="material-icons prefix">qr_code</i>
-        <label class="active" for="article-id">ID</label>
-        <input class="validate" id="article-id" [(ngModel)]="newArticle.id" type="text" placeholder="id" pattern="[0-9]+">
+    <div *ngIf="newArticle" class="cm-modal">
+      <div class="cm-modal-content z-depth-1">
+        <h5 class="center-align">New Article</h5>
+        <div class="input-field">
+          <i class="material-icons prefix">qr_code</i>
+          <label class="active" for="article-id">ID</label>
+          <input class="validate" id="article-id" [(ngModel)]="newArticle.id" type="number" placeholder="id" pattern="[0-9]+">
+        </div>
+        <div class="input-field">
+          <i class="material-icons prefix">short_text</i>
+          <label class="active" for="article-name">Name</label>
+          <input class="validate" id="article-name" [(ngModel)]="newArticle.name" type="text" placeholder="name" pattern="[a-zA-Z ]+">
+        </div>
+        <div class="input-field">
+          <i class="material-icons prefix">subject</i>
+          <label class="active" for="article-description">Description</label>
+          <input class="validate" id="article-description" [(ngModel)]="newArticle.description" type="text" placeholder="description">
+        </div>
+        <div class="input-field">
+          <i class="material-icons prefix">flag</i>
+          <label class="active" for="article-country">Country</label>
+          <input class="validate" id="article-country" [(ngModel)]="newArticle.country" type="text" placeholder="country" pattern="[a-zA-Z ]+">
+        </div>
+        <div class="input-field">
+          <i class="material-icons prefix">euro</i>
+          <label class="active" for="article-price">Price</label>
+          <input class="validate" id="article-price" [(ngModel)]="newArticle.price" type="number" step=".01" placeholder="price" pattern="[0-9\.]+">
+        </div>
+        <a class="left waves-effect waves-light btn red" (click)="closeNewArticle(false)" ><i class="material-icons right">close</i>Cancel</a>
+        <a class="right waves-effect waves-light btn" (click)="closeNewArticle(true)" [attr.disabled]="isNewArticleValid() ? null : 'disabled'"><i class="material-icons right">done</i>Confirm</a>
       </div>
-      <div class="input-field">
-        <i class="material-icons prefix">short_text</i>
-        <label class="active" for="article-name">Name</label>
-        <input class="validate" id="article-name" [(ngModel)]="newArticle.name" type="text" placeholder="name" pattern="[a-zA-Z ]+">
-      </div>
-      <div class="input-field">
-        <i class="material-icons prefix">euro</i>
-        <label class="active" for="article-price">Price</label>
-        <input class="validate" id="article-price" [(ngModel)]="newArticle.price" type="text" placeholder="price" pattern="[0-9\.]+">
-      </div>
-      <a class="left waves-effect waves-light btn red" (click)="closeNewArticle(false)" ><i class="material-icons right">close</i>Cancel</a>
-      <a class="right waves-effect waves-light btn" (click)="closeNewArticle(true)" [attr.disabled]="isNewArticleValid() ? null : 'disabled'"><i class="material-icons right">done</i>Confirm</a>
     </div>
   </div>
 </div>
