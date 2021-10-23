@@ -37,7 +37,7 @@ body, input[type="text"], button {
 /* Modal Content/Box */
 .cm-modal-content {
   background-color: #fefefe;
-  margin: 15% auto;
+  margin: 10% auto;
   padding: 20px;
   border: 1px solid #888;
   width: 80%;

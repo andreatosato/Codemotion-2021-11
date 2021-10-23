@@ -7,19 +7,20 @@ import { ORDERS } from './data';
   providedIn: 'root'
 })
 export class OrderService {
-  src: Subject<Order> = new Subject<Order>();
+  orders: Order[] = [...ORDERS];
+  src: Subject<Order[]> = new Subject<Order[]>();
 
   initialize() {
-    for (let order of ORDERS)
-      this.src.next(order);
+    this.src.next(this.orders);
   }
 
-  getOrders(): Observable<Order> {
+  getOrders(): Observable<Order[]> {
     return this.src;
   }
 
   addOrder(order: Order) {
-    this.src.next(order);
+    this.orders = [...this.orders, order];
+    this.src.next(this.orders);
   }
 
   constructor() { }

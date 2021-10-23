@@ -64,8 +64,8 @@ export class OrdersComponent implements OnInit {
   constructor(private articleSrv: ArticleService, private orderSrv: OrderService) { }
 
   ngOnInit(): void {
-    this.articleSrv.getArticles().subscribe(result => this.articles.push(result));
-    this.orderSrv.getOrders().subscribe(result => this.orders.push(result));
+    this.articleSrv.getArticles().subscribe(result => this.articles = result);
+    this.orderSrv.getOrders().subscribe(result => this.orders = result);
   }
 
   ngDoCheck(): void {

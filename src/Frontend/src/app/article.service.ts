@@ -8,19 +8,20 @@ import { ARTICLES } from './data';
   providedIn: 'root'
 })
 export class ArticleService {
-  src: Subject<Article> = new Subject<Article>();
+  articles = [...ARTICLES];
+  src: Subject<Article[]> = new Subject<Article[]>();
 
   initialize() {
-    for (let article of ARTICLES)
-      this.src.next(article);
+    this.src.next(this.articles);
   }
 
-  getArticles(): Observable<Article> {
+  getArticles(): Observable<Article[]> {
     return this.src;
   }
 
   addArticle(article: Article) {
-    this.src.next(article);
+    this.articles = [...this.articles, article];
+    this.src.next(this.articles);
   }
 
   constructor() { }

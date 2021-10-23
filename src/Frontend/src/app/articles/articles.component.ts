@@ -30,16 +30,16 @@ export class ArticlesComponent implements OnInit {
     return isValid;
   }
 
-  closeNewArticle(confirm: boolean) : void {
+  closeNewArticle(confirm: boolean): void {
     if (confirm && this.newArticle)
       this.articleSrv.addArticle(this.newArticle);
 
     this.newArticle = undefined;
   }
 
-  constructor(private articleSrv : ArticleService) { }
+  constructor(private articleSrv: ArticleService) { }
 
   ngOnInit(): void {
-    this.articleSrv.getArticles().subscribe(result => this.articles.push(result));
+    this.articleSrv.getArticles().subscribe(result => this.articles = result);
   }
 }
