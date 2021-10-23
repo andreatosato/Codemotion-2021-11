@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subject, Subscriber } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { Article } from './article';
 import { ARTICLES } from './data';
 
@@ -7,14 +8,21 @@ import { ARTICLES } from './data';
   providedIn: 'root'
 })
 export class ArticleService {
+  articles = [...ARTICLES];
+  src: Subject<Article[]> = new Subject<Article[]>();
+
+  initialize() {
+    this.src.next(this.articles);
+  }
+
   getArticles(): Observable<Article[]> {
-    const articles = of(ARTICLES);
-    return articles;
+    return this.src;
   }
 
   addArticle(article: Article) {
-    ARTICLES.push(article);
+    this.articles = [...this.articles, article];
+    this.src.next(this.articles);
   }
-  
+
   constructor() { }
 }

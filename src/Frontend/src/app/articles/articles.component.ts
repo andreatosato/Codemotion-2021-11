@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Subscriber, Subscription } from 'rxjs';
 import { Article } from '../article';
 import { ArticleService } from '../article.service';
+
+declare const M: any;
 
 @Component({
   selector: 'app-articles',
@@ -12,9 +15,8 @@ export class ArticlesComponent implements OnInit {
   selectedArticle?: Article;
   newArticle?: Article;
 
-  onSelect(article: Article): void {
-    if(!this.newArticle)
-      this.selectedArticle = article;
+  onSelect(article?: Article): void {
+    this.selectedArticle = article;
   }
 
   createNewArticle(): void {
@@ -28,17 +30,16 @@ export class ArticlesComponent implements OnInit {
     return isValid;
   }
 
-  closeNewArticle(confirm: boolean) : void {
+  closeNewArticle(confirm: boolean): void {
     if (confirm && this.newArticle)
       this.articleSrv.addArticle(this.newArticle);
 
     this.newArticle = undefined;
   }
 
-  constructor(private articleSrv : ArticleService) { }
+  constructor(private articleSrv: ArticleService) { }
 
   ngOnInit(): void {
     this.articleSrv.getArticles().subscribe(result => this.articles = result);
   }
-
 }

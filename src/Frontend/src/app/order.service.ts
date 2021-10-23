@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { Order } from './order';
 import { ORDERS } from './data';
 
@@ -7,13 +7,20 @@ import { ORDERS } from './data';
   providedIn: 'root'
 })
 export class OrderService {
+  orders: Order[] = [...ORDERS];
+  src: Subject<Order[]> = new Subject<Order[]>();
+
+  initialize() {
+    this.src.next(this.orders);
+  }
+
   getOrders(): Observable<Order[]> {
-    const orders = of(ORDERS);
-    return orders;
+    return this.src;
   }
 
   addOrder(order: Order) {
-    ORDERS.push(order);
+    this.orders = [...this.orders, order];
+    this.src.next(this.orders);
   }
 
   constructor() { }

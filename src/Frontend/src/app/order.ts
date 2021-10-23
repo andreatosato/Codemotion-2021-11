@@ -6,10 +6,19 @@ export class Order {
     creationDate: Date;
     items: BasketItem[];
 
+    getItemsCount() {
+        let total = 0;
+
+        for (let item of this.items)
+            total += item.amount;
+
+        return total;
+    }
+
     getPrice() {
         let total = 0;
 
-        for(let item of this.items)
+        for (let item of this.items)
             total += item.article.price * item.amount;
 
         return total;
