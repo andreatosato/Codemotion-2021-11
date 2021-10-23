@@ -57,6 +57,8 @@ services:
   mongodb:
     container_name: mongodb
     image: mongo:latest
+    volumes:
+      - mongodata:/data/db
 
   sqlserver:
     container_name: sqlserver
@@ -75,4 +77,6 @@ services:
 
 volumes:
   sqlserverdata:
+    driver: local
+  mongodata:
     driver: local

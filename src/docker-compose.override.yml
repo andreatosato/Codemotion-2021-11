@@ -9,15 +9,19 @@ services:
   aggregator:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:2000
+      - ProductApi=http://products:5000/
+      - StoreApi=http://store:600/
     ports:
-      - "2000:80"
+      - "2000:2000"
 
   orders:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:4000
       - SqlConnection=Data Source=sqlserver;Database=Orders;User Id=sa;Password="m1Password[12J";
     ports:
-      - "4000:80"
+      - "4000:4000"
 
 
   products:

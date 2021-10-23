@@ -45,26 +45,6 @@ static_resources:
                             upstream_local_address: "%UPSTREAM_LOCAL_ADDRESS%"
                          content_type: "text/html; charset=UTF-8"
                       path: "/tmp/access.log"
-                  #- name: envoy.access_loggers.open_telemetry
-                  #  typed_config:
-                  #    "@type": type.googleapis.com/envoy.extensions.access_loggers.open_telemetry.v3.OpenTelemetryAccessLogConfig
-                  #    common_config:
-                  #      log_name: "opentelemetry"
-                  #      grpc_service:
-                  #          envoy_grpc: 
-                  #              cluster_name: "Ingress"
-                  #    body:
-                  #      time: "%START_TIME%"
-                  #      protocol: "%PROTOCOL%"
-                  #      duration: "%DURATION%"
-                  #      request_method: "%REQ(:METHOD)%"
-                  #      request_host: "%REQ(HOST)%"
-                  #      path: "%REQ(X-ENVOY-ORIGINAL-PATH?:PATH)%"
-                  #      response_flags: "%RESPONSE_FLAGS%"
-                  #      route_name: "%ROUTE_NAME%"
-                  #      upstream_host: "%UPSTREAM_HOST%"
-                  #      upstream_cluster: "%UPSTREAM_CLUSTER%"
-                  #      upstream_local_address: "%UPSTREAM_LOCAL_ADDRESS%"
                 http_filters:
                   - name: envoy.filters.http.router
                 route_config:
@@ -122,7 +102,7 @@ static_resources:
                   address:
                     socket_address:
                       address: aggregator                      
-                      port_value: 80
+                      port_value: 2000
 
   - name: orders
     connect_timeout: 15s
@@ -136,7 +116,7 @@ static_resources:
                   address:
                     socket_address:
                       address: orders
-                      port_value: 80
+                      port_value: 4000
 
   - name: products
     connect_timeout: 15s
