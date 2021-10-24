@@ -8,7 +8,7 @@ const express = require('express');
 const axios = require('axios').default;
 const mongoose = require('mongoose');
 const productSchema = new mongoose.Schema({
-  id: Number,
+  _id: {type: Number, required: true},
   name: String,
   description: String,
   price: Number,
@@ -29,19 +29,19 @@ const getCrudController = () => {
     let result = [];
     for (let index = 0; index < products.length; index++) {
       result.push({
-        id: products[index].id,
+        id: products[index]._id,
         name: products[index].name,
         description: products[index].description,
         price: products[index].price,
         country: products[index].country
       });
     }
-    res.send(products);
+    res.send(result);
   });
   router.get('/:productId', async (req, res) => {
     const oldProduct = await productDbSet.findById(req.params.productId).exec();
     res.send({
-      id: oldProduct.id,
+      id: oldProduct._id,
       name: oldProduct.name,
       description: oldProduct.description,
       price: oldProduct.price,
@@ -52,13 +52,13 @@ const getCrudController = () => {
     console.log(JSON.stringify(req.body));
     const newProduct = req.body;
 
-    if(!mongoose.Types.ObjectId.isValid(newProduct.id))
+    if(newProduct.id <= 0)
       return res.status(400).send(req.body);
 
     const old = await productDbSet.findById(newProduct.id).exec();
     if(old === null) {
       const productNew = new productDbSet({
-        id: newProduct.id,//mongoose.Types.ObjectId(),
+        _id: newProduct.id,
         name: newProduct.name,
         description: newProduct.description,
         price: newProduct.price,

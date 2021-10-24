@@ -64,9 +64,9 @@ namespace Aggregator.Controllers
             };
 
             var productResponse = await productClient.PostAsJsonAsync("product/", p1, new JsonSerializerOptions(JsonSerializerDefaults.Web));
-            //productResponse.EnsureSuccessStatusCode();
+            productResponse.EnsureSuccessStatusCode();
             var storeResponse = await storeClient.PostAsJsonAsync("store/", s1, new JsonSerializerOptions(JsonSerializerDefaults.Web));
-            //storeResponse.EnsureSuccessStatusCode();
+            storeResponse.EnsureSuccessStatusCode();
 
             return Ok();
         }
