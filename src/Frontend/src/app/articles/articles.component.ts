@@ -14,6 +14,18 @@ export class ArticlesComponent implements OnInit {
   articles: Article[] = [];
   selectedArticle?: Article;
   newArticle?: Article;
+  sortingKey: string = 'id';
+
+  sortedArticles(): Article[] {
+    return this.articles.sort((a, b) => {
+      switch (this.sortingKey) {
+        case 'id': return a.id < b.id ? -1 : 1;
+        case 'name': return a.name.localeCompare(b.name);
+        case 'price': return a.price < b.price ? -1 : 1;
+        default: return 0;
+      }
+    })
+  }
 
   onSelect(article?: Article): void {
     this.selectedArticle = article;
