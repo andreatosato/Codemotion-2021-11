@@ -6,6 +6,9 @@ global using System.Collections.Generic;
 global using System.Linq;
 global using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 using Orders.Database;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,9 +23,21 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddDbContext<OrderContext>(
     options =>
     {
-        var connectionString = Environment.GetEnvironmentVariable("SqlConnection");
+        var connectionString = builder.Configuration.GetConnectionString("SqlConnection");
         options.UseSqlServer(connectionString);
     });
+builder.Services
+    .AddOpenTelemetryTracing((b) => b
+        .SetResourceBuilder(ResourceBuilder.CreateDefault().AddService("Orders").AddTelemetrySdk())
+        .AddAspNetCoreInstrumentation()
+        .AddSqlClientInstrumentation(s =>
+        {
+            s.SetDbStatementForStoredProcedure = false;
+            s.SetDbStatementForText = true;
+            s.RecordException = true;
+        })
+        .AddZipkinExporter(s => s.Endpoint = new Uri($"{builder.Configuration.GetValue<string>("ZipkinExporter")}/api/v2/spans"))
+    );
 
 var app = builder.Build();
 
