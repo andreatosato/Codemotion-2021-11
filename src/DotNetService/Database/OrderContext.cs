@@ -30,7 +30,6 @@ public class OrderContext : DbContext
             .IsRequired();
 
         modelBuilder.Entity<ProductEntity>().Property(t => t.SoldPrice).HasPrecision(15, 6);
-        modelBuilder.Entity<ProductEntity>().Property(t => t.Quantity).HasPrecision(15, 6);
     }
 
 }

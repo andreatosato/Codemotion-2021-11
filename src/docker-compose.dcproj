@@ -6,7 +6,7 @@
     <ProjectGuid>b8039450-ace9-4c18-8d8b-68aa69b06891</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/swagger</DockerServiceUrl>
-    <DockerServiceName>orders</DockerServiceName>
+    <DockerServiceName>aggregator</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
     <None Include="docker-compose.override.yml">

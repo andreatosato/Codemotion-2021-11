@@ -16,7 +16,7 @@ from opentelemetry.propagators.b3 import B3MultiFormat
 
 trace.set_tracer_provider(
     TracerProvider(
-        resource=Resource.create({SERVICE_NAME: "python-service"})
+        resource=Resource.create({SERVICE_NAME: "store"})
     )
 )
 zipkin_exporter = ZipkinExporter(

@@ -10,6 +10,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHttpClient("Product", c => c.BaseAddress = new Uri(builder.Configuration.GetValue<string>("ProductApi")));
 builder.Services.AddHttpClient("Store", c => c.BaseAddress = new Uri(builder.Configuration.GetValue<string>("StoreApi")));
+builder.Services.AddHttpClient("Order", c => c.BaseAddress = new Uri(builder.Configuration.GetValue<string>("OrderApi")));
 builder.Services
     .AddOpenTelemetryTracing((b) => b
         .SetResourceBuilder(ResourceBuilder.CreateDefault().AddService("Aggregator").AddTelemetrySdk())

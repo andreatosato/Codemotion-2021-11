@@ -12,7 +12,7 @@ const { NodeTracerProvider } = require('@opentelemetry/sdk-trace-node');
 const { SimpleSpanProcessor } = require('@opentelemetry/sdk-trace-base');
 const { JaegerExporter } = require('@opentelemetry/exporter-jaeger');
 const { ZipkinExporter } = require('@opentelemetry/exporter-zipkin');
-const { MongoDBInstrumentation } = require('@opentelemetry/instrumentation-mongodb');
+const { MongoDBInstrumentation, MongoDBInstrumentationConfig } = require('@opentelemetry/instrumentation-mongodb');
 const { Resource } = require('@opentelemetry/resources');
 const { SemanticAttributes, SemanticResourceAttributes: ResourceAttributesSC } = require('@opentelemetry/semantic-conventions');
 
@@ -29,9 +29,9 @@ module.exports = (serviceName) => {
   registerInstrumentations({
     tracerProvider: provider,
     instrumentations: [
+      // new MongoDBInstrumentation({enhancedDatabaseReporting: true}), FUNZIONA SOLO CON VERSIONI DI MONGO >= 3.3 a < 4
       HttpInstrumentation,
       ExpressInstrumentation,
-      MongoDBInstrumentation,
     ],
   });
 

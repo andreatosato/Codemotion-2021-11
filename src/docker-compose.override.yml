@@ -12,6 +12,7 @@ services:
       - ASPNETCORE_URLS=http://+:2000
       - ProductApi=http://products:5000/
       - StoreApi=http://store:600/
+      - OrderApi=http://orders:4000/
       - ZipkinExporter=http://zipkin:9411/
     ports:
       - "2000:2000"
