@@ -11,8 +11,6 @@ from opentelemetry.exporter.zipkin.json import ZipkinExporter
 from opentelemetry.sdk.trace import TracerProvider
 from opentelemetry.sdk.trace.export import BatchSpanProcessor
 from opentelemetry.instrumentation.sqlalchemy import SQLAlchemyInstrumentor
-from opentelemetry.propagate import set_global_textmap
-from opentelemetry.propagators.b3 import B3MultiFormat
 
 trace.set_tracer_provider(
     TracerProvider(
@@ -22,15 +20,13 @@ trace.set_tracer_provider(
 zipkin_exporter = ZipkinExporter(
     endpoint="http://zipkin:9411/api/v2/spans",
 )
-trace.set_tracer_provider(TracerProvider())
 trace.get_tracer_provider().add_span_processor(
     BatchSpanProcessor(zipkin_exporter)
 )
 tracer = trace.get_tracer(__name__)
-set_global_textmap(B3MultiFormat())
 
 app = Flask(__name__)
-FlaskInstrumentor().instrument_app(app, excluded_urls="client/.*/info,healthcheck")
+FlaskInstrumentor().instrument_app(app)
 RequestsInstrumentor().instrument()
 connectionString = "mssql+pyodbc://sa:m1Password[12J@sqlserver/Store?driver=ODBC+Driver+17+for+SQL+Server"
 app.config['SQLALCHEMY_DATABASE_URI'] = connectionString

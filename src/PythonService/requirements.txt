@@ -10,7 +10,6 @@ opentelemetry-instrumentation
 opentelemetry-instrumentation-sqlalchemy
 opentelemetry-instrumentation-requests
 opentelemetry-exporter-zipkin
-opentelemetry-propagator-b3
 
 # py -3 -m venv venv
 # pip install -r requirements.txt
