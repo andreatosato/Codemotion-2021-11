@@ -16,7 +16,6 @@
     "@opentelemetry/exporter-zipkin": "^1.0.0",
     "@opentelemetry/instrumentation-express": "^0.25.0",
     "@opentelemetry/instrumentation-http": "^0.25.0",
-    "@opentelemetry/instrumentation-mongodb": "^0.25.0",
     "@opentelemetry/resources": "^1.0.0",
     "@opentelemetry/sdk-trace-base": "^1.0.0",
     "@opentelemetry/sdk-trace-node": "^1.0.0",
@@ -24,6 +23,7 @@
     "axios": "^0.22.0",
     "cross-env": "^7.0.3",
     "express": "^4.17.1",
-    "mongoose": "^6.0.8"
+    "mongoose": "^6.0.8",
+    "opentelemetry-instrumentation-mongoose": "^0.25.0"
   }
 }
