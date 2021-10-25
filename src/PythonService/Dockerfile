@@ -21,7 +21,7 @@ RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
   && echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
 
 # Install any needed packages specified in requirements.txt
-RUN pip --verbose install -r requirements.txt
+RUN pip install -r requirements.txt
 
 # Run app.py when the container launches
 CMD ["python", "app.py", "run", "--no-debugger","--port", "600"]
