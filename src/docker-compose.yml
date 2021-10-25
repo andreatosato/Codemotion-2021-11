@@ -1,0 +1,82 @@
+services:
+  # ingress
+  envoy:
+    container_name: envoy
+    image: envoyproxy/envoy-alpine:v1.20-latest
+    depends_on:
+        - orders
+        - products
+        - store
+        - zipkin
+  
+  # aggregator
+  aggregator:
+    container_name: aggregator
+    image: opentelemetry/aggregator
+    build:
+      context: .
+      dockerfile: Aggregator/Dockerfile
+    depends_on:
+        - orders
+        - products
+        - store
+        - zipkin
+  
+  # microservices
+  orders:
+    container_name: orders
+    image: opentelemetry/orders
+    build:
+      context: .
+      dockerfile: DotNetService/Dockerfile
+    depends_on:
+        - sqlserver
+        - zipkin
+
+  products:
+    container_name: products
+    image: opentelemetry/products
+    build:
+      context: ./NodeService
+      dockerfile: Dockerfile
+    depends_on:
+        - mongodb
+        - zipkin
+
+  store:
+    container_name: store
+    image: opentelemetry/store
+    build:
+      context: ./PythonService
+      dockerfile: Dockerfile
+    depends_on:
+        - sqlserver
+        - zipkin
+  
+  # Databases
+  mongodb:
+    container_name: mongodb
+    image: mongo:latest
+    volumes:
+      - mongodata:/data/db
+
+  sqlserver:
+    container_name: sqlserver
+    image: "mcr.microsoft.com/mssql/server"    
+    volumes:
+      - sqlserverdata:/var/lib/sqlserver
+  # Databases
+
+
+  # OpenTelemetry
+  zipkin:
+    container_name: zipkin
+    image: openzipkin/zipkin
+
+  # OpenTelemetry
+
+volumes:
+  sqlserverdata:
+    driver: local
+  mongodata:
+    driver: local

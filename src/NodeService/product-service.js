@@ -8,7 +8,7 @@ const express = require('express');
 const axios = require('axios').default;
 const mongoose = require('mongoose');
 const productSchema = new mongoose.Schema({
-  _id: String,
+  _id: {type: Number, required: true},
   name: String,
   description: String,
   price: Number,
@@ -19,41 +19,58 @@ const productDbSet = mongoose.model('Product', productSchema);
 
 // Setup express
 const app = express();
-const PORT = 3000;
+const PORT = 5000;
 
 const getCrudController = () => {
   const router = express.Router();
   const resources = [];
   router.get('/', async (req, res) => {
     const products = await productDbSet.find();
-    res.send(products);
+    let result = [];
+    for (let index = 0; index < products.length; index++) {
+      result.push({
+        id: products[index]._id,
+        name: products[index].name,
+        description: products[index].description,
+        price: products[index].price,
+        country: products[index].country
+      });
+    }
+    res.send(result);
   });
   router.get('/:productId', async (req, res) => {
     const oldProduct = await productDbSet.findById(req.params.productId).exec();
-    res.send(oldProduct);
+    res.send({
+      id: oldProduct._id,
+      name: oldProduct.name,
+      description: oldProduct.description,
+      price: oldProduct.price,
+      country: oldProduct.country
+    });
   });
   router.post('/', async (req, res) => {
+    console.log(JSON.stringify(req.body));
     const newProduct = req.body;
 
-    if(!mongoose.Types.ObjectId.isValid(newProduct.id))
+    if(newProduct.id <= 0)
       return res.status(400).send(req.body);
 
     const old = await productDbSet.findById(newProduct.id).exec();
     if(old === null) {
       const productNew = new productDbSet({
-        _id: mongoose.Types.ObjectId(),
+        _id: newProduct.id,
         name: newProduct.name,
         description: newProduct.description,
         price: newProduct.price,
         country: newProduct.country
       });
       await productNew.save();
+
+      newProduct.id = productNew._id;
+      return res.status(201).send(newProduct);
     }
     else
       return res.status(409).send(old);
-
-
-    return res.status(201).send(req.body);
   });
   return router;
 };
