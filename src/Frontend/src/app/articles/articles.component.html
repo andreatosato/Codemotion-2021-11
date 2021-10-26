@@ -6,14 +6,14 @@
     <table class="striped">
       <thead>
         <tr>
-          <th>ID</th>
-          <th>Name</th>
+          <th (click)="sortingKey = 'id'"><span [class.underline]="sortingKey === 'id'">ID</span></th>
+          <th (click)="sortingKey = 'name'"><span [class.underline]="sortingKey === 'name'">Name</span></th>
           <th>Country</th>
-          <th class="right-align">Price</th>
+          <th class="right-align" (click)="sortingKey = 'price'"><span [class.underline]="sortingKey === 'price'">Price</span></th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let article of articles" class="collection-item" [ngClass]="{'teal lighten-1 white-text' : article === selectedArticle}" (click)="onSelect(article)">
+        <tr *ngFor="let article of sortedArticles()" class="collection-item" [ngClass]="{'teal lighten-1 white-text' : article === selectedArticle}" (click)="onSelect(article)">
           <td>{{article.id}}</td>
           <td>{{article.name}}</td>
           <td>{{article.country}}</td>

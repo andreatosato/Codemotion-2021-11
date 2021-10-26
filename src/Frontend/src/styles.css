@@ -46,3 +46,7 @@ body, input[type="text"], button {
 .striped td {
   cursor: pointer;
 }
+
+.underline {
+  text-decoration: underline;
+}
