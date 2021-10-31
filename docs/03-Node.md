@@ -1,8 +1,6 @@
+In Node, opentelemetry è disponibile con molti pacchetti, quelli che vedremo oggi sono alcuni.
 
-Collection di prova:
-
-https://www.getpostman.com/collections/a6ab652921065f8ec034
-
+## Pacchetti NPM
 ```
 npm i @opentelemetry/api @opentelemetry/exporter-jaeger @opentelemetry/exporter-zipkin
 npm i @opentelemetry/instrumentation-express @opentelemetry/instrumentation-http opentelemetry-instrumentation-mongoose
@@ -11,6 +9,7 @@ npm i axios cross-env express mongoose
 ```
 
 ## Tracer
+Questa classe consente di definire gli exporter, gli instrumentation e agganciarsi ad Express per il tracing.
 ```JS
 'use strict';
 
@@ -81,6 +80,7 @@ function ignoreHealthCheck(spanName, spanKind, attributes) {
 ```
 
 ## Codice applicativo
+Una semplice API in express e Mongoose che esegue un CRUD semplice.
 ```JS
 'use strict';
 
@@ -182,6 +182,8 @@ async function main() {
 ```
 
 ## DockerFile
+Il docker file per la dockerizzazione dell'applicazione.
+
 ```
 FROM node:14
 
