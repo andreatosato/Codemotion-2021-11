@@ -1,18 +1,23 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Observable, of, Subject, Subscriber } from 'rxjs';
-import { tap } from 'rxjs/operators';
 import { Article } from './article';
-import { ARTICLES } from './data';
+import { API } from './config';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ArticleService {
-  articles = [...ARTICLES];
+  articles: Article[] = [];
   src: Subject<Article[]> = new Subject<Article[]>();
 
   initialize() {
-    this.src.next(this.articles);
+    const url = this.api.getProducts();
+
+    this.http.get<Article[]>(url).subscribe(result => {
+      this.articles = result;
+      this.src.next(this.articles);
+    });
   }
 
   getArticles(): Observable<Article[]> {
@@ -20,9 +25,14 @@ export class ArticleService {
   }
 
   addArticle(article: Article) {
-    this.articles = [...this.articles, article];
-    this.src.next(this.articles);
+    const url = this.api.saveProduct();
+    this.http.post(url, article).subscribe(ok => {
+      this.articles = [...this.articles, article];
+      this.src.next(this.articles);
+    }, error => {
+      // mostare qualcosa
+    })
   }
 
-  constructor() { }
+  constructor(private http: HttpClient, private api: API) { }
 }
