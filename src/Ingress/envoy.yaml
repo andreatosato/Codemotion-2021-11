@@ -13,10 +13,6 @@ static_resources:
           port_value: 10000
       filter_chains:
         - filters:
-            #- name: envoy.request_id.uuid
-            #  typed_config:
-            #    "@type": type.googleapis.com/envoy.extensions.request_id.uuid.v3.UuidRequestIdConfig
-            #    pack_trace_reason: true
             - name: envoy.filters.network.http_connection_manager
               typed_config:
                 "@type": type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
