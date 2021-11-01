@@ -5,6 +5,7 @@ require('./tracer')('example-express-server');
 
 // Require in rest of modules
 const express = require('express');
+const cors = require('cors');
 const axios = require('axios').default;
 const mongoose = require('mongoose');
 const productSchema = new mongoose.Schema({
@@ -20,6 +21,7 @@ const productDbSet = mongoose.model('Product', productSchema);
 // Setup express
 const app = express();
 const PORT = 5000;
+app.use(cors());
 
 const getCrudController = () => {
   const router = express.Router();

@@ -13,11 +13,15 @@ static_resources:
           port_value: 10000
       filter_chains:
         - filters:
+            #- name: envoy.request_id.uuid
+            #  typed_config:
+            #    "@type": type.googleapis.com/envoy.extensions.request_id.uuid.v3.UuidRequestIdConfig
+            #    pack_trace_reason: true
             - name: envoy.filters.network.http_connection_manager
               typed_config:
                 "@type": type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
                 stat_prefix: ingress_http
-                generate_request_id: true
+                generate_request_id: false
                 tracing:
                     provider:
                       name: envoy.tracers.zipkin
@@ -57,8 +61,8 @@ static_resources:
                         - safe_regex:
                             google_re2: {}
                             regex: \*
-                        allow_methods: "GET, POST, PUT, DELETE"
-                        allow_headers: "authorization, content-type, x-requestid, x-requested-with"
+                        allow_methods: "GET, POST, PUT, DELETE, OPTIONS"
+                        allow_headers: "User-Agent, authorization, content-type, x-requestid, x-client-trace-id, x-requested-with, traceparent, x-b3-traceid, x-b3-spanid, x-b3-sampled, x-amzn-trace-id, uber-trace-id"
                         allow_credentials: true
                       routes:
                         - name: "aggregator"

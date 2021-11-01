@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { ArticlesComponent } from './articles/articles.component';
 import { OrdersComponent } from './orders/orders.component';
 import { HttpClientModule } from '@angular/common/http';
-import { OpenTelemetryInterceptorModule, OtelColExporterModule, CompositePropagatorModule, ZipkinExporterModule } from '@jufab/opentelemetry-angular-interceptor';
+import { OpenTelemetryInterceptorModule, CompositePropagatorModule, ZipkinExporterModule } from '@jufab/opentelemetry-angular-interceptor';
 import { environment } from './../environments/environment';
 
 @NgModule({

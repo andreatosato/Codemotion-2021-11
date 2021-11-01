@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
     providedIn: 'root'
 })
 export class API {
-    baseUrl: string = "http://127.0.0.1:5000/";
+    baseUrl: string = "http://127.0.0.1:10000/";
 
     getProducts(): string { return this.baseUrl + "p/product"; }
     saveProduct(): string { return this.baseUrl + "p/product"; }
