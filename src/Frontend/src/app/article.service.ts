@@ -28,8 +28,7 @@ export class ArticleService {
   addArticle(article: Article) {
     const url = this.api.saveProduct();
     this.http.post(url, article).subscribe(ok => {
-      this.articles = [...this.articles, article];
-      this.src.next(this.articles);
+      this.setAvailability(new Availability(article));
     }, error => {
       // mostare qualcosa
     });
@@ -37,7 +36,7 @@ export class ArticleService {
 
   setAvailability(availability: Availability) {
     const url = this.api.saveStore();
-    this.http.post(url, availability).subscribe(ok => {
+    this.http.post(url, { productId: availability.productId, availability: availability.availability }).subscribe(ok => {
       this.getAllArticles();
     }, error => {
       // mostare qualcosa

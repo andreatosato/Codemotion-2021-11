@@ -39,8 +39,8 @@
         </div>
         <div class="input-field">
           <i class="material-icons prefix">pin</i>
-          <label class="active" for="article-description">Amount available</label>
-          <input class="validate" id="article-description" [(ngModel)]="selectedArticle.availability" type="number" placeholder="availability" min="0" max="9999">
+          <label class="active" for="article-availability">Amount available</label>
+          <input class="validate" id="article-availability" [(ngModel)]="selectedArticle.availability" type="number" placeholder="availability" min="0" max="9999">
         </div>
         <a class="left waves-effect waves-light btn red" (click)="closeEditArticle(false)" ><i class="material-icons right">close</i>Cancel</a>
         <a class="right waves-effect waves-light btn" (click)="closeEditArticle(true)"><i class="material-icons right">done</i>Confirm</a>
@@ -69,6 +69,11 @@
           <i class="material-icons prefix">flag</i>
           <label class="active" for="article-country">Country</label>
           <input class="validate" id="article-country" [(ngModel)]="newArticle.country" type="text" placeholder="country" pattern="[a-zA-Z ]+">
+        </div>
+        <div class="input-field">
+          <i class="material-icons prefix">pin</i>
+          <label class="active" for="article-availability">Amount available</label>
+          <input class="validate" id="article-availability" [(ngModel)]="newArticle.availability" type="number" placeholder="availability" min="0" max="9999">
         </div>
         <div class="input-field">
           <i class="material-icons prefix">euro</i>
