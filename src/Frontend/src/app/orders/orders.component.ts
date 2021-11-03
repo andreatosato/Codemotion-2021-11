@@ -37,13 +37,17 @@ export class OrdersComponent implements OnInit {
     this.newOrder = undefined;
   }
 
+  getArticleName(id: number): string | undefined {
+    return this.articles.find(a => a.id === id)?.name;
+  }
+
   addArticle(): void {
     if (this.selectedArticle && this.newOrder) {
       let articleId = Number(this.selectedArticle);
-      let item = this.newOrder.items.find(i => i.article.id === articleId);
+      let item = this.newOrder.items.find(i => i.productId === articleId);
 
       if (item)
-        item.amount++;
+        item.quantity++;
       else {
         let article = this.articles.find(a => a.id === articleId);
 
@@ -55,7 +59,7 @@ export class OrdersComponent implements OnInit {
 
   removeArticle(id: number): void {
     if (this.newOrder) {
-      let index = this.newOrder.items.findIndex(i => i.article.id === id);
+      let index = this.newOrder.items.findIndex(i => i.productId === id);
       if (index > -1)
         this.newOrder.items.splice(index, 1);
     }

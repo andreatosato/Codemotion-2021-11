@@ -3,14 +3,14 @@ import { BasketItem } from './basketitem';
 
 export class Order {
     id: number;
-    creationDate: Date;
+    orderCreated: Date;
     items: BasketItem[];
 
     getItemsCount() {
-        let total = 0;
+        let total: number = 0;
 
         for (let item of this.items)
-            total += item.amount;
+            total += item.quantity * 1;
 
         return total;
     }
@@ -19,14 +19,14 @@ export class Order {
         let total = 0;
 
         for (let item of this.items)
-            total += item.article.price * item.amount;
+            total += item.soldPrice * item.quantity;
 
         return total;
     }
 
     constructor() {
         this.id = 0;
-        this.creationDate = new Date();
+        this.orderCreated = new Date();
         this.items = [];
     }
 }
