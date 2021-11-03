@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of, Subject, Subscriber } from 'rxjs';
 import { Article } from './article';
 import { API } from './config';
+import { Availability } from './Availability';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class ArticleService {
   articles: Article[] = [];
   src: Subject<Article[]> = new Subject<Article[]>();
 
-  initialize() {
+  getAllArticles(): void {
     const url = this.api.getProducts();
 
     this.http.get<Article[]>(url).subscribe(result => {
@@ -31,7 +32,16 @@ export class ArticleService {
       this.src.next(this.articles);
     }, error => {
       // mostare qualcosa
-    })
+    });
+  }
+
+  setAvailability(availability: Availability) {
+    const url = this.api.saveStore();
+    this.http.post(url, availability).subscribe(ok => {
+      this.getAllArticles();
+    }, error => {
+      // mostare qualcosa
+    });
   }
 
   constructor(private http: HttpClient, private api: API) { }

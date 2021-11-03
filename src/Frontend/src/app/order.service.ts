@@ -1,16 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Observable, of, Subject } from 'rxjs';
 import { Order } from './order';
-import { ORDERS } from './data';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrderService {
-  orders: Order[] = [...ORDERS];
+  orders: Order[] = [];
   src: Subject<Order[]> = new Subject<Order[]>();
 
-  initialize() {
+  getAllOrders() {
     this.src.next(this.orders);
   }
 
