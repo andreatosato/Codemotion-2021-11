@@ -11,11 +11,11 @@ declare const M: any;
 export class AppComponent {
   title = 'Codemotion 2021';
 
-  constructor(private articleSrv: ArticleService, private ordersSrv: OrderService) {}
+  constructor(private articleSrv: ArticleService, private ordersSrv: OrderService) { }
 
   ngAfterViewInit(): void {
     M.AutoInit();
-    this.articleSrv.initialize();
-    this.ordersSrv.initialize();
+    this.articleSrv.getAllArticles();
+    this.ordersSrv.getAllOrders();
   }
 }

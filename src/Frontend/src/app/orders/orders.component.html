@@ -15,7 +15,7 @@
       <tbody>
         <tr *ngFor="let order of orders" class="collection-item" [ngClass]="{'teal lighten-1 white-text' : order === selectedOrder}" (click)="onSelect(order)">
           <td>{{order.id}}</td>
-          <td>{{order.creationDate | date:'medium'}}</td>
+          <td>{{order.orderCreated | date:'medium'}}</td>
           <td>{{order.getItemsCount()}}</td>
           <td class="right-align">{{order.getPrice() | number:'1.2-2'}} €</td>
         </tr>
@@ -40,9 +40,9 @@
           </thead>
           <tbody>
               <tr *ngFor="let item of selectedOrder.items" class="collection-item">
-                  <td>{{item.article.name}}</td>
-                  <td class="right-align">{{item.amount}}</td>
-                  <td class="right-align">{{item.article.price | number : '1.2-2'}}</td>
+                  <td>{{getArticleName(item.productId)}}</td>
+                  <td class="right-align">{{item.quantity}}</td>
+                  <td class="right-align">{{item.soldPrice | number : '1.2-2'}}</td>
               </tr>
           </tbody>
         </table>
@@ -83,9 +83,9 @@
                   <td><a class="waves-effect waves-light btn-floating btn-small green" (click)="addArticle()" ><i class="material-icons right">add</i></a></td>
               </tr>
               <tr *ngFor="let item of newOrder.items" class="collection-item">
-                  <td>{{item.article.name}}</td>
-                  <td><input class="validate" [(ngModel)]="item.amount" type="text" pattern="[0-9]+"></td>
-                  <td><a class="waves-effect waves-light btn-floating btn-small red" (click)="removeArticle(item.article.id)" ><i class="material-icons right">close</i></a></td>
+                  <td>{{getArticleName(item.productId)}}</td>
+                  <td><input class="validate" [(ngModel)]="item.quantity" type="text" pattern="[0-9]+"></td>
+                  <td><a class="waves-effect waves-light btn-floating btn-small red" (click)="removeArticle(item.productId)" ><i class="material-icons right">close</i></a></td>
               </tr>
           </tbody>
         </table>

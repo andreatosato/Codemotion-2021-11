@@ -9,14 +9,16 @@
           <th (click)="sortingKey = 'id'"><span [class.underline]="sortingKey === 'id'">ID</span></th>
           <th (click)="sortingKey = 'name'"><span [class.underline]="sortingKey === 'name'">Name</span></th>
           <th>Country</th>
+          <th class="right-align">In Store</th>
           <th class="right-align" (click)="sortingKey = 'price'"><span [class.underline]="sortingKey === 'price'">Price</span></th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let article of sortedArticles()" class="collection-item" [ngClass]="{'teal lighten-1 white-text' : article === selectedArticle}" (click)="onSelect(article)">
+        <tr *ngFor="let article of sortedArticles()" class="collection-item" [ngClass]="{'teal lighten-1 white-text' : article.id === selectedArticle?.productId}" (click)="onSelect(article)">
           <td>{{article.id}}</td>
           <td>{{article.name}}</td>
           <td>{{article.country}}</td>
+          <td class="right-align">{{article.availability}}</td>
           <td class="right-align">{{article.price | number:'1.2-2'}} €</td>
         </tr>
       </tbody>
@@ -24,33 +26,24 @@
 
     <div *ngIf="selectedArticle" class="cm-modal">
       <div class="cm-modal-content z-depth-1">
-        <h5 class="center-align">Article details</h5>
+        <h5 class="center-align">Edit availability</h5>
         <div class="input-field">
           <i class="material-icons prefix">qr_code</i>
           <label class="active" for="article-id">ID</label>
-          <input id="article-id" value="{{selectedArticle.id}}" type="number" disabled>
+          <input id="article-id" value="{{selectedArticle.productId}}" type="number" disabled>
         </div>
         <div class="input-field">
           <i class="material-icons prefix">short_text</i>
           <label class="active" for="article-name">Name</label>
-          <input class="validate" id="article-name" [(ngModel)]="selectedArticle.name" type="text" placeholder="name" pattern="[a-zA-Z ]+">
+          <input class="validate" id="article-name" value="{{selectedArticle.name}}" type="text" disabled>
         </div>
         <div class="input-field">
-          <i class="material-icons prefix">subject</i>
-          <label class="active" for="article-description">Description</label>
-          <input class="validate" id="article-description" [(ngModel)]="selectedArticle.description" type="text" placeholder="description">
+          <i class="material-icons prefix">pin</i>
+          <label class="active" for="article-availability">Amount available</label>
+          <input class="validate" id="article-availability" [(ngModel)]="selectedArticle.availability" type="number" placeholder="availability" min="0" max="9999">
         </div>
-        <div class="input-field">
-          <i class="material-icons prefix">flag</i>
-          <label class="active" for="article-country">Country</label>
-          <input class="validate" id="article-country" [(ngModel)]="selectedArticle.country" type="text" placeholder="country" pattern="[a-zA-Z ]+">
-        </div>
-        <div class="input-field">
-          <i class="material-icons prefix">euro</i>
-          <label class="active" for="article-price">Price</label>
-          <input class="validate" id="article-price" [(ngModel)]="selectedArticle.price" type="number" step=".01" placeholder="price" pattern="[0-9\.]+">
-        </div>
-        <a class="right waves-effect waves-light btn" (click)="onSelect()" ><i class="material-icons right">close</i>Close</a>
+        <a class="left waves-effect waves-light btn red" (click)="closeEditArticle(false)" ><i class="material-icons right">close</i>Cancel</a>
+        <a class="right waves-effect waves-light btn" (click)="closeEditArticle(true)"><i class="material-icons right">done</i>Confirm</a>
       </div>
     </div>
 
@@ -76,6 +69,11 @@
           <i class="material-icons prefix">flag</i>
           <label class="active" for="article-country">Country</label>
           <input class="validate" id="article-country" [(ngModel)]="newArticle.country" type="text" placeholder="country" pattern="[a-zA-Z ]+">
+        </div>
+        <div class="input-field">
+          <i class="material-icons prefix">pin</i>
+          <label class="active" for="article-availability">Amount available</label>
+          <input class="validate" id="article-availability" [(ngModel)]="newArticle.availability" type="number" placeholder="availability" min="0" max="9999">
         </div>
         <div class="input-field">
           <i class="material-icons prefix">euro</i>
