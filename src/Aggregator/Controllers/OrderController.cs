@@ -28,19 +28,19 @@ namespace Aggregator.Controllers
             // Check Products
             foreach (var checkProduct in order.Products)
             {
-                var p = await productClient.GetFromJsonAsync<ProductEntity>($"product/{checkProduct.Id}");
+                var p = await productClient.GetFromJsonAsync<ProductEntity>($"product/{checkProduct.ProductId}");
                 if (p == null)
                 {
-                    ModelState.AddModelError("product_not_exist", $"Product {checkProduct.Id} not exist");
+                    ModelState.AddModelError("product_not_exist", $"Product {checkProduct.ProductId} not exist");
                     continue;
                 }
 
-                var productAvailability = await storeClient.GetFromJsonAsync<StoreEntity>($"store/{checkProduct.Id}");
+                var productAvailability = await storeClient.GetFromJsonAsync<StoreEntity>($"store/{checkProduct.ProductId}");
                 if (productAvailability == null)
-                    ModelState.AddModelError("product_not_in_store", $"Product {checkProduct.Id} not in store");
+                    ModelState.AddModelError("product_not_in_store", $"Product {checkProduct.ProductId} not in store");
 
                 if (productAvailability?.Availability <= 0)
-                    ModelState.AddModelError("product_not_available", $"Product {checkProduct.Id} not available in store");
+                    ModelState.AddModelError("product_not_available", $"Product {checkProduct.ProductId} not available in store");
 
                 productAvailability.Availability = productAvailability.Availability - checkProduct.Quantity;
                 newAvailability.Add(productAvailability);
