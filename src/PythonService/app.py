@@ -1,6 +1,7 @@
 from flask import Flask
 from flask import request
 from flask import jsonify, abort
+from flask_cors import CORS, cross_origin
 from sqlalchemy import create_engine
 from sqlalchemy_utils import database_exists, create_database
 from opentelemetry import trace
@@ -26,6 +27,7 @@ trace.get_tracer_provider().add_span_processor(
 tracer = trace.get_tracer(__name__)
 
 app = Flask(__name__)
+CORS(app)
 FlaskInstrumentor().instrument_app(app)
 RequestsInstrumentor().instrument()
 connectionString = "mssql+pyodbc://sa:m1Password[12J@sqlserver/Store?driver=ODBC+Driver+17+for+SQL+Server"
@@ -49,11 +51,13 @@ SQLAlchemyInstrumentor().instrument(
 db.init_app(app)
 
 @app.route('/store/', methods = ['GET'])
+@cross_origin()
 def GetAllStore():
     result = db.session.query(Store).all()
     return jsonify([{"productId":r.productId, "availability":r.availability} for r in result])
 
 @app.route('/store/<productId>')
+@cross_origin()
 def GetProductAvailability(productId):
     result = db.session.query(Store).filter_by(productId=productId).one_or_none()
     if result:
@@ -61,7 +65,8 @@ def GetProductAvailability(productId):
     else:
         abort(404)
 
-@app.route('/store/', methods = ['POST'])
+@app.route('/store/', methods = ['POST','OPTIONS'])
+@cross_origin()
 def SetProductAvailability():
     productAvailability = request.get_json()
     productId = productAvailability["productId"]

@@ -16,8 +16,14 @@ static_resources:
             - name: envoy.filters.network.http_connection_manager
               typed_config:
                 "@type": type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
+                server_name: 'envoy'
                 stat_prefix: ingress_http
-                generate_request_id: false
+                generate_request_id: true
+                preserve_external_request_id: true
+                request_id_extension:
+                    typed_config:
+                      "@type": type.googleapis.com/envoy.extensions.request_id.uuid.v3.UuidRequestIdConfig
+                      pack_trace_reason: false
                 tracing:
                     provider:
                       name: envoy.tracers.zipkin
@@ -105,7 +111,7 @@ static_resources:
                       port_value: 2000
 
   - name: orders
-    connect_timeout: 15s
+    connect_timeout: 1s
     type: STRICT_DNS
     lb_policy: ROUND_ROBIN
     load_assignment:
